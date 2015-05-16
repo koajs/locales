@@ -73,6 +73,7 @@ module.exports = function (app, options) {
     }
 
     // for performance reason
+    // https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
     if (arguments.length === 1) {
       // __(key)
       return text;
@@ -103,8 +104,11 @@ module.exports = function (app, options) {
     }
 
     // __(key, value1, value2, value3, value4, value5, ...)
-    var args = Array.prototype.slice.call(arguments, 1);
-    args.unshift(text);
+    var args = new Array(arguments.length);
+    args[0] = text;
+    for(var i = 1; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
     return util.format.apply(util, args);
   };
 
