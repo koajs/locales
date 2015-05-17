@@ -30,8 +30,9 @@ koa-locales
 koa locales, i18n solution for koa:
 
 1. All locales resources location on `options.dir`.
-2. One api: `__(key[, value, ...])`
-3. Auto detect request locale from `query`, `cookie` and `header: Accept-Language`
+2. resources file supports: `*.js`, `*.json` and `*.properties`
+3. One api: `__(key[, value, ...])`
+4. Auto detect request locale from `query`, `cookie` and `header: Accept-Language`
 
 ## Installation
 
@@ -101,7 +102,7 @@ __('{0} {0} {1} {1} {1}', ['foo', 'bar'])
 ## Usage on template
 
 ```js
-this.locales.__ = this.__.bind(this);
+this.state.__ = this.__.bind(this);
 ```
 
 [nunjucks] example:

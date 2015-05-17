@@ -98,6 +98,27 @@ describe('koa-locales.test.js', function () {
         .expect(200, done);
       });
 
+      it('should use query locale: de on *.properties format', function (done) {
+        request(app.callback())
+        .get('/?locale=de')
+        .expect({
+          email: 'Emailde',
+          hello: 'Hallo fengmk2, wie geht es dir heute?',
+          message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
+          empty: '',
+          notexists_key: 'key not exists',
+          empty_string: '',
+          novalue: 'key %s ok',
+          arguments3: '1 2 3',
+          arguments4: '1 2 3 4',
+          arguments5: '1 2 3 4 5',
+          arguments6: '1 2 3 4 5. 6',
+          values: 'foo bar foo bar {2} {100}',
+        })
+        .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
+        .expect(200, done);
+      });
+
       it('should use query locale and change cookie locale', function (done) {
         request(app.callback())
         .get('/?locale=zh-CN')
@@ -284,8 +305,8 @@ describe('koa-locales.test.js', function () {
         request(app.callback())
         .get('/?locale=')
         .expect({
-          email: 'Email',
-          hello: 'Hello fengmk2, how are you today?',
+          email: '郵箱',
+          hello: 'fengmk2，今天過得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',
           notexists_key: 'key not exists',

@@ -15,6 +15,7 @@
  */
 
 var debug = require('debug')('koa-locales');
+var ini = require('ini');
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
@@ -34,13 +35,17 @@ module.exports = function (app, options) {
     var names = fs.readdirSync(localeDir);
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
-      if (!/\.(js|json)$/.test(name)) {
+      if (!/\.(js|json|properties)$/.test(name)) {
         continue;
       }
       var filepath = path.join(localeDir, name);
       // support en_US.js => en-US.js
       var locale = formatLocale(name.split('.')[0]);
-      resources[locale] = require(filepath);
+      if (/\.properties$/.test(name)) {
+        resources[locale] = ini.parse(fs.readFileSync(filepath, 'utf8'));
+      } else {
+        resources[locale] = require(filepath);
+      }
     }
   }
 
