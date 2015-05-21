@@ -35,7 +35,7 @@ module.exports = function (app, options) {
     var names = fs.readdirSync(localeDir);
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
-      if (!/\.(js|json|properties)$/.test(name)) {
+      if (!/\.(?:js|json|properties)$/.test(name)) {
         continue;
       }
       var filepath = path.join(localeDir, name);
