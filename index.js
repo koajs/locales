@@ -109,11 +109,8 @@ module.exports = function (app, options) {
     }
 
     // __(key, value1, value2, value3, value4, value5, ...)
-    var args = new Array(arguments.length);
+    var args = Array.prototype.slice.call(arguments);
     args[0] = text;
-    for(var i = 1; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
     return util.format.apply(util, args);
   };
 
