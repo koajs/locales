@@ -8,7 +8,7 @@
  *   fengmk2 <m@fengmk2.com> (http://fengmk2.com)
  */
 
-"use strict";
+'use strict';
 
 /**
  * Module dependencies.
@@ -63,6 +63,22 @@ module.exports = function (app, options) {
     });
   }
 
+  var Object_INDEX_RE = /\{(.+?)\}/g;
+  function formatWithObject(text, values) {
+    return text.replace(Object_INDEX_RE, function (orignal, matched) {
+      var value = values[matched];
+      if (value) {
+        return value;
+      }
+      // not match index, return orignal text
+      return orignal;
+    });
+  }
+
+  function isObject(obj) {
+    return Object.prototype.toString.call(obj) === '[object Object]';
+  }
+
   app.context[functionName] = function (key, value, value2, value3, value4) {
     if (arguments.length === 0) {
       // __()
@@ -84,6 +100,14 @@ module.exports = function (app, options) {
       return text;
     }
     if (arguments.length === 2) {
+      if (isObject(value)) {
+        // __(key, object)
+        // __('{a} {b} {b} {a}', {a: 'foo', b: 'bar'})
+        // =>
+        // foo bar bar foo
+        return formatWithObject(text, value);
+      }
+
       if (Array.isArray(value)) {
         // __(key, array)
         // __('{0} {1} {1} {0}', ['foo', 'bar'])

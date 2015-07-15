@@ -8,7 +8,7 @@
  *   fengmk2 <m@fengmk2.com> (http://fengmk2.com)
  */
 
-"use strict";
+'use strict';
 
 /**
  * Module dependencies.
@@ -44,6 +44,7 @@ describe('koa-locales.test.js', function () {
         arguments5: '1 2 3 4 5',
         arguments6: '1 2 3 4 5. 6',
         values: 'foo bar foo bar {2} {100}',
+        object: 'foo bar foo bar {z}',
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
@@ -71,6 +72,7 @@ describe('koa-locales.test.js', function () {
         arguments5: '1 2 3 4 5',
         arguments6: '1 2 3 4 5. 6',
         values: 'foo bar foo bar {2} {100}',
+        object: 'foo bar foo bar {z}',
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
@@ -93,6 +95,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -114,6 +117,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
         .expect(200, done);
@@ -136,6 +140,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -157,6 +162,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -181,6 +187,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect(function (res) {
           assert(!res.headers['set-cookie']);
@@ -209,6 +216,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -229,6 +237,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -249,6 +258,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -271,6 +281,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -293,6 +304,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -317,6 +329,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=zh\-tw; path=\/; expires=\w+/)
         .expect(200, done);
@@ -341,6 +354,7 @@ describe('koa-locales.test.js', function () {
           arguments5: '1 2 3 4 5',
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -368,6 +382,7 @@ function createApp(options) {
       arguments5: this[fname]('%s %s %s %s %s', 1, 2, 3, 4, 5),
       arguments6: this[fname]('%s %s %s %s %s.', 1, 2, 3, 4, 5, 6),
       values: this[fname]('{0} {1} {0} {1} {2} {100}', ['foo', 'bar']),
+      object: this[fname]('{foo} {bar} {foo} {bar} {z}', {foo: 'foo', bar: 'bar'}),
     };
   });
 

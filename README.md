@@ -97,6 +97,10 @@ __('Hello, %s. %s', 'fengmk2', 'koa rock!')
 __('{0} {0} {1} {1} {1}', ['foo', 'bar'])
 =>
 'foo foo bar bar bar'
+
+__('{a} {a} {b} {b} {b}', {a: 'foo', b: 'bar'})
+=>
+'foo foo bar bar bar'
 ```
 
 ## Usage on template
