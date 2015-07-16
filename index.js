@@ -35,7 +35,7 @@ module.exports = function (app, options) {
     var names = fs.readdirSync(localeDir);
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
-      if (!/\.(js|json|properties)$/.test(name)) {
+      if (!/\.(?:js|json|properties)$/.test(name)) {
         continue;
       }
       var filepath = path.join(localeDir, name);
@@ -109,11 +109,8 @@ module.exports = function (app, options) {
     }
 
     // __(key, value1, value2, value3, value4, value5, ...)
-    var args = new Array(arguments.length);
+    var args = Array.prototype.slice.call(arguments);
     args[0] = text;
-    for(var i = 1; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
     return util.format.apply(util, args);
   };
 
