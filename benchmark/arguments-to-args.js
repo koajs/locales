@@ -26,19 +26,19 @@ console.log('forLoop(0, 1, 2, 3, 4, 5, 6, 7): %j', forLoop(0, 1, 2, 3, 4, 5, 6, 
 suite
 
 .add('Array.prototype.slice.call(arguments)', function() {
-  slice(0, 1, 2, 3, 4, 5, 6, 7)
+  slice(0, 1, 2, 3, 4, 5, 6, 7);
 })
 .add('Array.prototype.slice.call(arguments, 0)', function() {
-  slice0(0, 1, 2, 3, 4, 5, 6, 7)
+  slice0(0, 1, 2, 3, 4, 5, 6, 7);
 })
 .add('for(var i = 0; i < args.length; i++) {}', function() {
-  forLoop(0, 1, 2, 3, 4, 5, 6, 7)
+  forLoop(0, 1, 2, 3, 4, 5, 6, 7);
 })
 
 .on('cycle', function(event) {
   benchmarks.add(event.target);
 })
-.on('start', function(event) {
+.on('start', function() {
   console.log('\n  arguments to args Benchmark\n  node version: %s, date: %s\n  Starting...',
     process.version, Date());
 })
