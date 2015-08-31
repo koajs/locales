@@ -77,7 +77,7 @@ module.exports = function (app, options) {
     return Object.prototype.toString.call(obj) === '[object Object]';
   }
 
-  app.context[functionName] = function (key, value, value2, value3, value4) {
+  app.context[functionName] = function (key, value) {
     if (arguments.length === 0) {
       // __()
       return '';
@@ -91,8 +91,6 @@ module.exports = function (app, options) {
       return '';
     }
 
-    // for performance reason
-    // https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
     if (arguments.length === 1) {
       // __(key)
       return text;
@@ -117,20 +115,8 @@ module.exports = function (app, options) {
       // __(key, value)
       return util.format(text, value);
     }
-    if (arguments.length === 3) {
-      // __(key, value1, value2)
-      return util.format(text, value, value2);
-    }
-    if (arguments.length === 4) {
-      // __(key, value1, value2, value3)
-      return util.format(text, value, value2, value3);
-    }
-    if (arguments.length === 5) {
-      // __(key, value1, value2, value3, value4)
-      return util.format(text, value, value2, value3, value4);
-    }
 
-    // __(key, value1, value2, value3, value4, value5, ...)
+    // __(key, value1, ...)
     var args = new Array(arguments.length);
     args[0] = text;
     for(var i = 1; i < args.length; i++) {
