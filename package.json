@@ -30,7 +30,8 @@
     "mm": "~1.1.0",
     "mocha": "*",
     "pedding": "~1.0.0",
-    "supertest": "~1.0.1"
+    "supertest": "~1.0.1",
+    "merge-descriptors": "~1.0.0"
   },
   "homepage": "https://github.com/koajs/locales",
   "repository": {
