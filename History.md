@@ -1,3 +1,10 @@
+
+1.3.0 / 2015-09-14
+==================
+
+ * feat: Multiple locale paths support.
+ * refact(apply): apply is not too slow than direct call. fixed #2
+
 1.2.0 / 2015-08-31
 ==================
 
