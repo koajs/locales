@@ -1,4 +1,9 @@
 
+1.3.1 / 2015-09-15
+==================
+
+ * fix: merge-descriptors should be in dependencies
+
 1.3.0 / 2015-09-14
 ==================
 
