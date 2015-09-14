@@ -53,7 +53,7 @@ describe('koa-locales.test.js', function () {
 
   describe('custom options', function () {
     var app = createApp({
-      dir: __dirname + '/locales'
+      dirs: [__dirname + '/locales', __dirname + '/other-locales']
     });
 
     it('should use default locale: en-US', function (done) {
@@ -83,7 +83,7 @@ describe('koa-locales.test.js', function () {
         request(app.callback())
         .get('/?locale=zh-CN')
         .expect({
-          email: '邮箱',
+          email: '邮箱1',
           hello: 'fengmk2，今天过得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',
@@ -128,7 +128,7 @@ describe('koa-locales.test.js', function () {
         .get('/?locale=zh-CN')
         .set('cookie', 'locale=zh-TW')
         .expect({
-          email: '邮箱',
+          email: '邮箱1',
           hello: 'fengmk2，今天过得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',
@@ -175,7 +175,7 @@ describe('koa-locales.test.js', function () {
         .get('/?locale=')
         .set('cookie', 'locale=zh-cn')
         .expect({
-          email: '邮箱',
+          email: '邮箱1',
           hello: 'fengmk2，今天过得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',
@@ -204,7 +204,7 @@ describe('koa-locales.test.js', function () {
         .get('/?locale=')
         .set('Accept-Language', 'zh-CN')
         .expect({
-          email: '邮箱',
+          email: '邮箱1',
           hello: 'fengmk2，今天过得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',
@@ -225,7 +225,7 @@ describe('koa-locales.test.js', function () {
         .get('/?locale=')
         .set('Accept-Language', 'zh-CN,zh;q=0.8')
         .expect({
-          email: '邮箱',
+          email: '邮箱1',
           hello: 'fengmk2，今天过得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',
@@ -246,7 +246,7 @@ describe('koa-locales.test.js', function () {
         .get('/?locale=')
         .set('Accept-Language', 'en;q=0.8, es, zh_CN')
         .expect({
-          email: '邮箱',
+          email: '邮箱1',
           hello: 'fengmk2，今天过得如何？',
           message: 'Hello fengmk2, how are you today? How was your 18.',
           empty: '',

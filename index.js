@@ -20,6 +20,7 @@ var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var ms = require('humanize-ms');
+var merge = require('merge-descriptors');
 
 module.exports = function (app, options) {
   options = options || {};
@@ -27,25 +28,42 @@ module.exports = function (app, options) {
   var queryField = options.queryField || 'locale';
   var cookieField = options.cookieField || 'locale';
   var cookieMaxAge = ms(options.cookieMaxAge || '1y');
-  var localeDir = options.dir || path.join(process.cwd(), 'locales');
+  var localeDir = options.dir;
+  var localeDirs = options.dirs || [path.join(process.cwd(), 'locales')];
   var functionName = options.functionName || '__';
   var resources = {};
 
-  if (fs.existsSync(localeDir)) {
-    var names = fs.readdirSync(localeDir);
-    for (var i = 0; i < names.length; i++) {
-      var name = names[i];
-      var filepath = path.join(localeDir, name);
+  if (localeDir && localeDirs.indexOf(localeDir) === -1) {
+    localeDirs.push(localeDir);
+  }
+
+  for (var i = 0; i < localeDirs.length; i ++) {
+    var dir = localeDirs[i];
+
+    if (!fs.existsSync(dir)) {
+      continue;
+    }
+
+    var names = fs.readdirSync(dir);
+    for (var j = 0; j < names.length; j++) {
+      var name = names[j];
+      var filepath = path.join(dir, name);
       // support en_US.js => en-US.js
       var locale = formatLocale(name.split('.')[0]);
+      var resource = {};
 
       if (name.endsWith('.js') || name.endsWith('.json')) {
-        resources[locale] = require(filepath);
+        resource = require(filepath);
       } else if (name.endsWith('.properties')) {
-        resources[locale] = ini.parse(fs.readFileSync(filepath, 'utf8'));
+        resource = ini.parse(fs.readFileSync(filepath, 'utf8'));
       }
+
+      resources[locale] = resources[locale] || {};
+      merge(resources[locale], resource);
     }
   }
+
+
 
   debug('init locales with %j, got %j resources', options, Object.keys(resources));
 

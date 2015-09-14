@@ -39,7 +39,7 @@ var locales = require('koa-locales');
 
 var app = koa();
 app.use(locales({
-  dir: __dirname + '/locales'
+  dirs: [__dirname + '/locales', __dirname + '/foo/locales']
 }));
 ```
 
@@ -61,7 +61,7 @@ Patch locales functions to koa app.
 ```js
 locales({
   app: app,
-  dir: __dirname + '/app/locales',
+  dirs: [__dirname + '/app/locales'],
   defaultLocale: 'zh-CN'
 }));
 ```
