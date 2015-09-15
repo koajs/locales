@@ -38,9 +38,10 @@ var koa = require('koa');
 var locales = require('koa-locales');
 
 var app = koa();
-app.use(locales({
-  dirs: [__dirname + '/locales', __dirname + '/foo/locales']
-}));
+var options = {
+  dirs: [__dirname + '/locales', __dirname + '/foo/locales'],
+};
+locales(app, options);
 ```
 
 ## API Reference
