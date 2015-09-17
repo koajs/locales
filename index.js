@@ -103,7 +103,8 @@ module.exports = function (app, options) {
 
     var locale = this.__getLocale();
     var resource = resources[locale] || {};
-    var text = resource[key] || key;
+
+    var text = resource[key] || getNestedValue(resource, key) || key;
     debug('%s: %j => %j', locale, key, text);
     if (!text) {
       return '';
@@ -208,5 +209,14 @@ module.exports = function (app, options) {
   function formatLocale(locale) {
     // support zh_CN, en_US => zh-CN, en-US
     return locale.replace('_', '-').toLowerCase();
+  }
+
+   // fetch nested key, example: model.user.fields.title
+  function getNestedValue(data, key) {
+    var keys = key.split('.');
+    for (var i = 0; typeof data === 'object' && i < keys.length; i++) {
+      data = data[keys[i]];
+    }
+    return data;
   }
 };
