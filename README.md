@@ -21,7 +21,7 @@ koa-locales
 koa locales, i18n solution for koa:
 
 1. All locales resources location on `options.dir`.
-2. resources file supports: `*.js`, `*.json` and `*.properties`, [examples](https://github.com/koajs/locales/tree/master/test/locales)
+2. resources file supports: `*.js`, `*.json` and `*.properties`, [examples](test/locales/)
 3. One api: `__(key[, value, ...])`
 4. Auto detect request locale from `query`, `cookie` and `header: Accept-Language`
 
