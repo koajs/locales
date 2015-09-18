@@ -53,7 +53,7 @@ module.exports = function (app, options) {
       var resource = {};
 
       if (name.endsWith('.js') || name.endsWith('.json')) {
-        resource = require(filepath);
+        resource = flattening(require(filepath));
       } else if (name.endsWith('.properties')) {
         resource = ini.parse(fs.readFileSync(filepath, 'utf8'));
       }
@@ -62,8 +62,6 @@ module.exports = function (app, options) {
       merge(resources[locale], resource);
     }
   }
-
-
 
   debug('init locales with %j, got %j resources', options, Object.keys(resources));
 
@@ -91,10 +89,6 @@ module.exports = function (app, options) {
     });
   }
 
-  function isObject(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
-  }
-
   app.context[functionName] = function (key, value) {
     if (arguments.length === 0) {
       // __()
@@ -104,7 +98,7 @@ module.exports = function (app, options) {
     var locale = this.__getLocale();
     var resource = resources[locale] || {};
 
-    var text = resource[key] || getNestedValue(resource, key) || key;
+    var text = resource[key] || key;
     debug('%s: %j => %j', locale, key, text);
     if (!text) {
       return '';
@@ -210,13 +204,29 @@ module.exports = function (app, options) {
     // support zh_CN, en_US => zh-CN, en-US
     return locale.replace('_', '-').toLowerCase();
   }
-
-   // fetch nested key, example: model.user.fields.title
-  function getNestedValue(data, key) {
-    var keys = key.split('.');
-    for (var i = 0; typeof data === 'object' && i < keys.length; i++) {
-      data = data[keys[i]];
-    }
-    return data;
-  }
 };
+
+function isObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+}
+
+function flattening(data) {
+
+  var result = {};
+
+  function deepFlat (data, keys) {
+    Object.keys(data).forEach(function(key) {
+      var value = data[key];
+      var k = keys ? keys + '.' + key : key;
+      if (isObject(value)) {
+        deepFlat(value, k);
+      } else {
+        result[k] = String(value);
+      }
+    });
+  }
+
+  deepFlat(data, '');
+
+  return result;
+}
