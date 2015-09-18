@@ -1,4 +1,9 @@
 
+1.4.1 / 2015-09-18
+==================
+
+ * refact(nested-data): transform nested data on load localization data.
+
 1.4.0 / 2015-09-17
 ==================
 
