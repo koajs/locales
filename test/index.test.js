@@ -46,7 +46,8 @@ describe('koa-locales.test.js', function () {
         values: 'foo bar foo bar {2} {100}',
         object: 'foo bar foo bar {z}',
         "gender": "model.user.fields.gender",
-        "name": "model.user.fields.name"
+        "name": "model.user.fields.name",
+        "name_hint": "model.user.hints.name"
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
@@ -76,7 +77,8 @@ describe('koa-locales.test.js', function () {
         values: 'foo bar foo bar {2} {100}',
         object: 'foo bar foo bar {z}',
         "gender": "model.user.fields.gender",
-        "name": "model.user.fields.name"
+        "name": "model.user.fields.name",
+        "name_hint": "model.user.hints.name"
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
@@ -101,7 +103,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性别",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "这里填写你的真名"
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -125,7 +128,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          "name": "model.user.fields.name",
+          "name_hint": "model.user.hints.name"
         })
         .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
         .expect(200, done);
@@ -150,7 +154,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性别",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "这里填写你的真名"
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -174,7 +179,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          "name": "model.user.fields.name",
+          "name_hint": "model.user.hints.name"
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -201,7 +207,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性别",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "这里填写你的真名"
         })
         .expect(function (res) {
           assert(!res.headers['set-cookie']);
@@ -232,7 +239,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性别",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "这里填写你的真名"
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -255,7 +263,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性别",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "这里填写你的真名"
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -278,7 +287,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性别",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "这里填写你的真名"
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -303,7 +313,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          "name": "model.user.fields.name",
+          "name_hint": "model.user.hints.name"
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -328,7 +339,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          "name": "model.user.fields.name",
+          "name_hint": "model.user.hints.name"
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -355,7 +367,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "性別",
-          "name": "姓名"
+          "name": "姓名",
+          "name_hint": "model.user.hints.name"
         })
         .expect('Set-Cookie', /^locale=zh\-tw; path=\/; expires=\w+/)
         .expect(200, done);
@@ -382,7 +395,8 @@ describe('koa-locales.test.js', function () {
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
           "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          "name": "model.user.fields.name",
+          "name_hint": "model.user.hints.name"
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -400,6 +414,7 @@ function createApp(options) {
     this.body = {
       email: this[fname]('Email'),
       name: this[fname]('model.user.fields.name'),
+      name_hint: this[fname]('model.user.hints.name'),
       gender: this[fname]('model.user.fields.gender'),
       hello: this[fname]('Hello %s, how are you today?', 'fengmk2'),
       message: this[fname]('Hello %s, how are you today? How was your %s.', 'fengmk2', 18),

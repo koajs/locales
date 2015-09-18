@@ -4,7 +4,7 @@ module.exports = {
   model: {
     user: {
       fields: {
-        name: '姓名',
+        name: '姓名 bad',
         gender: '性别'
       }
     }

@@ -20,7 +20,6 @@ var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var ms = require('humanize-ms');
-var merge = require('merge-descriptors');
 
 module.exports = function (app, options) {
   options = options || {};
@@ -59,7 +58,7 @@ module.exports = function (app, options) {
       }
 
       resources[locale] = resources[locale] || {};
-      merge(resources[locale], resource);
+      deepMerge(resources[locale], resource);
     }
   }
 
@@ -211,12 +210,30 @@ module.exports = function (app, options) {
     return locale.replace('_', '-').toLowerCase();
   }
 
-   // fetch nested key, example: model.user.fields.title
+  // fetch nested key, example: model.user.fields.title
   function getNestedValue(data, key) {
     var keys = key.split('.');
     for (var i = 0; typeof data === 'object' && i < keys.length; i++) {
       data = data[keys[i]];
     }
     return data;
+  }
+
+  // Deep merge nested keys, source key will override target.
+  function deepMerge(target, source) {
+    target = target || {};
+    source = source || {};
+
+    for(var key in source) {
+      if (isHash(target[key])) {
+        deepMerge(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  function isHash(obj) {
+    return obj !== null && typeof obj === 'object';
   }
 };
