@@ -1,7 +1,9 @@
-var Benchmark = require('benchmark');
-var benchmarks = require('beautify-benchmark');
+'use strict';
 
-var suite = new Benchmark.Suite();
+const Benchmark = require('benchmark');
+const benchmarks = require('beautify-benchmark');
+
+const suite = new Benchmark.Suite();
 
 function endsWith(str) {
   return str.endsWith('.properties');

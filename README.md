@@ -53,7 +53,7 @@ Patch locales functions to koa app.
 - {Application} app: koa app instance.
 - {Object} options: optional params
   - {String} functionName: locale function name patch on koa context. Optional, default is `__`.
-  - {String} dir: locales resources store directory. Optional, default is `$PWD/locales`.
+  - {String} dirs: locales resources store directories. Optional, default is `['$PWD/locales']`.
   - {String} defaultLocale: default locale. Optional, default is `en-US`.
   - {String} queryField: locale field name on query. Optional, default is `locale`.
   - {String} cookieField: locale field name on cookie. Optional, default is `locale`.
@@ -63,7 +63,7 @@ Patch locales functions to koa app.
 locales({
   app: app,
   dirs: [__dirname + '/app/locales'],
-  defaultLocale: 'zh-CN'
+  defaultLocale: 'zh-CN',
 }));
 ```
 
@@ -74,7 +74,7 @@ Get current request locale text.
 ```js
 function* home() {
   this.body = {
-    message: this.__('Hello, %s', 'fengmk2')
+    message: this.__('Hello, %s', 'fengmk2'),
   };
 }
 ```

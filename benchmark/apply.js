@@ -1,8 +1,10 @@
-var Benchmark = require('benchmark');
-var benchmarks = require('beautify-benchmark');
-var util = require('util');
+'use strict';
 
-var suite = new Benchmark.Suite();
+const Benchmark = require('benchmark');
+const benchmarks = require('beautify-benchmark');
+const util = require('util');
+
+const suite = new Benchmark.Suite();
 
 function normal(text) {
   if (arguments.length === 2) {
@@ -17,13 +19,13 @@ function normal(text) {
 }
 
 function apply() {
-  var args = Array.prototype.slice.call(arguments);
+  const args = Array.prototype.slice.call(arguments);
   return util.format.apply(util, args);
 }
 
 function apply2() {
-  var args = new Array(arguments.length);
-  for (var i = 0, l = arguments.length; i < l; i++) {
+  const args = new Array(arguments.length);
+  for (let i = 0, l = arguments.length; i < l; i++) {
     args[i] = arguments[i];
   }
   return util.format.apply(util, args);
