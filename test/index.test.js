@@ -14,19 +14,19 @@
  * Module dependencies.
  */
 
-var assert = require('assert');
-var koa = require('koa');
-var request = require('supertest');
-var pedding = require('pedding');
-var mm = require('mm');
-var locales = require('../');
+const assert = require('assert');
+const koa = require('koa');
+const request = require('supertest');
+const pedding = require('pedding');
+const mm = require('mm');
+const locales = require('../');
 
 describe('koa-locales.test.js', function () {
 
   afterEach(mm.restore);
 
   describe('default options', function () {
-    var app = createApp();
+    const app = createApp();
 
     it('should use default locale: en-US', function (done) {
       request(app.callback())
@@ -45,8 +45,8 @@ describe('koa-locales.test.js', function () {
         arguments6: '1 2 3 4 5. 6',
         values: 'foo bar foo bar {2} {100}',
         object: 'foo bar foo bar {z}',
-        "gender": "model.user.fields.gender",
-        "name": "model.user.fields.name"
+        'gender': 'model.user.fields.gender',
+        'name': 'model.user.fields.name',
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
@@ -54,8 +54,8 @@ describe('koa-locales.test.js', function () {
   });
 
   describe('custom options', function () {
-    var app = createApp({
-      dirs: [__dirname + '/locales', __dirname + '/other-locales']
+    const app = createApp({
+      dirs: [__dirname + '/locales', __dirname + '/other-locales'],
     });
 
     it('should use default locale: en-US', function (done) {
@@ -75,8 +75,8 @@ describe('koa-locales.test.js', function () {
         arguments6: '1 2 3 4 5. 6',
         values: 'foo bar foo bar {2} {100}',
         object: 'foo bar foo bar {z}',
-        "gender": "model.user.fields.gender",
-        "name": "model.user.fields.name"
+        'gender': 'model.user.fields.gender',
+        'name': 'model.user.fields.name',
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
@@ -100,8 +100,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性别",
-          "name": "姓名"
+          'gender': '性别',
+          'name': '姓名',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -124,8 +124,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
         })
         .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
         .expect(200, done);
@@ -149,8 +149,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性别",
-          "name": "姓名"
+          'gender': '性别',
+          'name': '姓名',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -173,8 +173,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -200,8 +200,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性别",
-          "name": "姓名"
+          'gender': '性别',
+          'name': '姓名',
         })
         .expect(function (res) {
           assert(!res.headers['set-cookie']);
@@ -231,8 +231,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性别",
-          "name": "姓名"
+          'gender': '性别',
+          'name': '姓名',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -254,8 +254,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性别",
-          "name": "姓名"
+          'gender': '性别',
+          'name': '姓名',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -277,8 +277,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性别",
-          "name": "姓名"
+          'gender': '性别',
+          'name': '姓名',
         })
         .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
         .expect(200, done);
@@ -302,8 +302,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -327,8 +327,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -354,8 +354,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "性別",
-          "name": "姓名"
+          'gender': '性別',
+          'name': '姓名',
         })
         .expect('Set-Cookie', /^locale=zh\-tw; path=\/; expires=\w+/)
         .expect(200, done);
@@ -381,8 +381,8 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
-          "gender": "model.user.fields.gender",
-          "name": "model.user.fields.name"
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
@@ -392,9 +392,9 @@ describe('koa-locales.test.js', function () {
 });
 
 function createApp(options) {
-  var app = koa();
+  const app = koa();
   locales(app, options);
-  var fname = options && options.functionName || '__';
+  const fname = options && options.functionName || '__';
 
   app.use(function* () {
     this.body = {

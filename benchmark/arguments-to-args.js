@@ -1,7 +1,9 @@
-var Benchmark = require('benchmark');
-var benchmarks = require('beautify-benchmark');
+'use strict';
 
-var suite = new Benchmark.Suite();
+const Benchmark = require('benchmark');
+const benchmarks = require('beautify-benchmark');
+
+const suite = new Benchmark.Suite();
 
 function slice() {
   return Array.prototype.slice.call(arguments);
@@ -12,8 +14,8 @@ function slice0() {
 }
 
 function forLoop() {
-  var args = new Array(arguments.length);
-  for(var i = 0; i < args.length; i++) {
+  const args = new Array(arguments.length);
+  for(let i = 0; i < args.length; i++) {
     args[i] = arguments[i];
   }
   return args;
@@ -31,7 +33,7 @@ suite
 .add('Array.prototype.slice.call(arguments, 0)', function() {
   slice0(0, 1, 2, 3, 4, 5, 6, 7);
 })
-.add('for(var i = 0; i < args.length; i++) {}', function() {
+.add('for(let i = 0; i < args.length; i++) {}', function() {
   forLoop(0, 1, 2, 3, 4, 5, 6, 7);
 })
 
@@ -58,4 +60,4 @@ suite
 //
 //   Array.prototype.slice.call(arguments)    x  4,537,649 ops/sec ±1.18% (94 runs sampled)
 //   Array.prototype.slice.call(arguments, 0) x  4,605,132 ops/sec ±0.87% (96 runs sampled)
-//   for(var i = 0; i < args.length; i++) {}  x 30,435,436 ops/sec ±0.91% (93 runs sampled)
+//   for(let i = 0; i < args.length; i++) {}  x 30,435,436 ops/sec ±0.91% (93 runs sampled)
