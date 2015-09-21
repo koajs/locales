@@ -20,10 +20,10 @@ koa-locales
 
 koa locales, i18n solution for koa:
 
-1. All locales resources location on `options.dir`.
-2. resources file supports: `*.js`, `*.json` and `*.properties`, [examples](test/locales/)
-3. One api: `__(key[, value, ...])`
-4. Auto detect request locale from `query`, `cookie` and `header: Accept-Language`
+1. All locales resources location on `options.dirs`.
+2. resources file supports: `*.js`, `*.json` and `*.properties`, see [examples](test/locales/).
+3. One api: `__(key[, value, ...])`.
+4. Auto detect request locale from `query`, `cookie` and `header: Accept-Language`.
 
 ## Installation
 
@@ -51,7 +51,7 @@ locales(app, options);
 Patch locales functions to koa app.
 
 - {Application} app: koa app instance.
-- {Object} options: optional params
+- {Object} options: optional params.
   - {String} functionName: locale function name patch on koa context. Optional, default is `__`.
   - {String} dirs: locales resources store directories. Optional, default is `['$PWD/locales']`.
   - {String} defaultLocale: default locale. Optional, default is `en-US`.
