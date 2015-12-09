@@ -1,4 +1,10 @@
 
+1.4.3 / 2015-12-09
+==================
+
+ * fix: if header sent, don't set the cookie
+ * doc(options.dirs): fix api doc
+
 1.4.2 / 2015-09-20
 ==================
 
