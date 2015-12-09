@@ -177,7 +177,8 @@ module.exports = function (app, options) {
       locale = defaultLocale;
     }
 
-    if (cookieLocale !== locale) {
+    // if header not send, set the locale cookie
+    if (cookieLocale !== locale && !this.headerSent) {
       // locale change, need to set cookie
       this.cookies.set(cookieField, locale, {
         // make sure brower javascript can read the cookie
