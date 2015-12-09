@@ -1,6 +1,4 @@
-/**!
- * koa-locales - test/index.test.js
- *
+/**
  * Copyright(c) koajs and other contributors.
  * MIT Licensed
  *
@@ -50,6 +48,16 @@ describe('koa-locales.test.js', function () {
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
       .expect(200, done);
+    });
+
+    it('should not set locale cookie after header sent', function(done) {
+      request(app.callback())
+      .get('/headerSent')
+      .expect('foo')
+      .expect(200, function(err) {
+        assert(!err, err && err.message);
+        setTimeout(done, 50);
+      });
     });
   });
 
@@ -397,6 +405,15 @@ function createApp(options) {
   const fname = options && options.functionName || '__';
 
   app.use(function* () {
+    if (this.url === '/headerSent') {
+      this.body = 'foo';
+      const that = this;
+      setTimeout(function() {
+        that[fname]('Email');
+      }, 10);
+      return;
+    }
+
     this.body = {
       email: this[fname]('Email'),
       name: this[fname]('model.user.fields.name'),
