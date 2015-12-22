@@ -1,6 +1,4 @@
-/**!
- * koa-locales - index.js
- *
+/**
  * Copyright(c) koajs and other contributors.
  * MIT Licensed
  *
@@ -87,7 +85,11 @@ module.exports = function (app, options) {
     const locale = this.__getLocale();
     const resource = resources[locale] || {};
 
-    const text = resource[key] || key;
+    let text = resource[key];
+    if (text === undefined) {
+      text = key;
+    }
+
     debug('%s: %j => %j', locale, key, text);
     if (!text) {
       return '';
