@@ -1,4 +1,9 @@
 
+1.4.4 / 2015-12-23
+==================
+
+  * fix: return empty if the key-value is empty value
+
 1.4.3 / 2015-12-09
 ==================
 
