@@ -26,6 +26,7 @@ const DEFAULT_OPTIONS = {
   defaultLocale: 'en-US',
   queryField: 'locale',
   cookieField: 'locale',
+  cookieFieldMap: {},
   cookieMaxAge: '1y',
   dir: undefined,
   dirs: [path.join(process.cwd(), 'locales')],
@@ -37,6 +38,7 @@ module.exports = function (app, options) {
   const defaultLocale = formatLocale(options.defaultLocale);
   const queryField = options.queryField;
   const cookieField = options.cookieField;
+  const cookieFieldMap = options.cookieFieldMap;
   const cookieMaxAge = ms(options.cookieMaxAge);
   const localeDir = options.dir;
   const localeDirs = options.dirs;
@@ -169,6 +171,9 @@ module.exports = function (app, options) {
         locale = defaultLocale;
       }
     }
+
+    // cookie map
+    if(locale in cookieFieldMap) locale = cookieFieldMap[locale];
 
     locale = formatLocale(locale);
 
