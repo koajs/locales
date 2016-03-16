@@ -67,7 +67,7 @@ describe('koa-locales.test.js', function () {
     });
     const cookieFieldMapApp = createApp({
       dirs: [__dirname + '/locales', __dirname + '/other-locales'],
-      cookieFieldMap: {
+      localeAlias: {
         'en': 'en-US',
         'de-de': 'de',
       },
@@ -195,7 +195,7 @@ describe('koa-locales.test.js', function () {
         .expect(200, done);
       });
 
-      it('should get cookie value from map', function (done) {
+      it('should use localeAlias', function (done) {
         request(cookieFieldMapApp.callback())
         .get('/?locale=de-de')
         .expect({
