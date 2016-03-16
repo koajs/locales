@@ -65,6 +65,13 @@ describe('koa-locales.test.js', function () {
     const app = createApp({
       dirs: [__dirname + '/locales', __dirname + '/other-locales'],
     });
+    const cookieFieldMapApp = createApp({
+      dirs: [__dirname + '/locales', __dirname + '/other-locales'],
+      cookieFieldMap: {
+        'en': 'en-US',
+        'de-de': 'de',
+      },
+    });
 
     it('should use default locale: en-US', function (done) {
       request(app.callback())
@@ -185,6 +192,30 @@ describe('koa-locales.test.js', function () {
           'name': 'model.user.fields.name',
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+        .expect(200, done);
+      });
+
+      it('should get cookie value from map', function (done) {
+        request(cookieFieldMapApp.callback())
+        .get('/?locale=de-de')
+        .expect({
+          email: 'Emailde',
+          hello: 'Hallo fengmk2, wie geht es dir heute?',
+          message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
+          empty: '',
+          notexists_key: 'key not exists',
+          empty_string: '',
+          novalue: 'key %s ok',
+          arguments3: '1 2 3',
+          arguments4: '1 2 3 4',
+          arguments5: '1 2 3 4 5',
+          arguments6: '1 2 3 4 5. 6',
+          values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
+        })
+        .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
         .expect(200, done);
       });
     });
