@@ -1,6 +1,6 @@
 {
   "name": "koa-locales",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "koa locales, i18n solution for koa",
   "main": "index.js",
   "files": [
@@ -22,7 +22,7 @@
   "devDependencies": {
     "autod": "*",
     "beautify-benchmark": "0",
-    "benchmark": "1",
+    "benchmark": "2.0.0",
     "contributors": "*",
     "eslint": "1",
     "istanbul": "*",
