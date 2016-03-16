@@ -173,7 +173,7 @@ module.exports = function (app, options) {
     }
 
     // cookie map
-    if(locale in cookieFieldMap) locale = cookieFieldMap[locale];
+    if (locale in cookieFieldMap) locale = cookieFieldMap[locale];
 
     locale = formatLocale(locale);
 
