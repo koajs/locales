@@ -1,16 +1,4 @@
-/**
- * Copyright(c) koajs and other contributors.
- * MIT Licensed
- *
- * Authors:
- *   fengmk2 <m@fengmk2.com> (http://fengmk2.com)
- */
-
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 const assert = require('assert');
 const koa = require('koa');
@@ -482,4 +470,3 @@ function createApp(options) {
 
   return app;
 }
-
