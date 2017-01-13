@@ -1,16 +1,4 @@
-/**
- * Copyright(c) koajs and other contributors.
- * MIT Licensed
- *
- * Authors:
- *   fengmk2 <m@fengmk2.com> (http://fengmk2.com)
- */
-
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 const debug = require('debug')('koa-locales');
 const ini = require('ini');
@@ -27,11 +15,11 @@ const DEFAULT_OPTIONS = {
   localeAlias: {},
   cookieMaxAge: '1y',
   dir: undefined,
-  dirs: [path.join(process.cwd(), 'locales')],
+  dirs: [ path.join(process.cwd(), 'locales') ],
   functionName: '__',
 };
 
-module.exports = function (app, options) {
+module.exports = (app, options) => {
   options = assign({}, DEFAULT_OPTIONS, options);
   const defaultLocale = formatLocale(options.defaultLocale);
   const queryField = options.queryField;
@@ -139,7 +127,7 @@ module.exports = function (app, options) {
       return this.__locale;
     }
 
-    const cookieLocale = this.cookies.get(cookieField);
+    const cookieLocale = this.cookies.get(cookieField, { signed: false });
     let locale = this.query[queryField] || cookieLocale;
     if (!locale) {
       // Accept-Language: zh-CN,zh;q=0.5
@@ -191,6 +179,7 @@ module.exports = function (app, options) {
         // make sure brower javascript can read the cookie
         httpOnly: false,
         maxAge: cookieMaxAge,
+        signed: false,
       });
     }
     this.__locale = locale;
