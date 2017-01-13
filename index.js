@@ -19,7 +19,7 @@ const DEFAULT_OPTIONS = {
   functionName: '__',
 };
 
-module.exports = (app, options) => {
+module.exports = function (app, options) {
   options = assign({}, DEFAULT_OPTIONS, options);
   const defaultLocale = formatLocale(options.defaultLocale);
   const queryField = options.queryField;
