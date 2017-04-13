@@ -7,17 +7,6 @@ koa-locales
 [![David deps][david-image]][david-url]
 [![npm download][download-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/koa-locales.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/koa-locales
-[travis-image]: https://img.shields.io/travis/koajs/locales.svg?style=flat-square
-[travis-url]: https://travis-ci.org/koajs/locales
-[cov-image]: https://codecov.io/github/koajs/locales/coverage.svg?branch=master
-[cov-url]: https://codecov.io/github/koajs/locales?branch=master
-[david-image]: https://img.shields.io/david/koajs/locales.svg?style=flat-square
-[david-url]: https://david-dm.org/koajs/locales
-[download-image]: https://img.shields.io/npm/dm/koa-locales.svg?style=flat-square
-[download-url]: https://npmjs.org/package/koa-locales
-
 koa locales, i18n solution for koa:
 
 1. All locales resources location on `options.dirs`.
@@ -57,7 +46,7 @@ Patch locales functions to koa app.
   - {String} defaultLocale: default locale. Optional, default is `en-US`.
   - {String} queryField: locale field name on query. Optional, default is `locale`.
   - {String} cookieField: locale field name on cookie. Optional, default is `locale`.
-  - {Object} localeAlias: locale cookie value map. Optional, default is {}.
+  - {Object} localeAlias: locale value map. Optional, default is {}.
   - {String|Number} cookieMaxAge: set locale cookie value max age. Optional, default is `1y`, expired after one year.
 
 ```js
@@ -65,7 +54,20 @@ locales({
   app: app,
   dirs: [__dirname + '/app/locales'],
   defaultLocale: 'zh-CN',
-}));
+});
+```
+
+#### Aliases
+
+The key `options.localeAlias` allows to not repeat dictionary files, as you can configure to use the same file for *es_ES* for *es*, or *en_UK* for *en*.
+
+```js
+locales({
+	localeAlias: {
+		es: es_ES,
+		en: en_UK
+	}
+});
 ```
 
 ### `context.__(key[, value1[, value2, ...]])`
@@ -102,11 +104,44 @@ __('{a} {a} {b} {b} {b}', {a: 'foo', b: 'bar'})
 this.state.__ = this.__.bind(this);
 ```
 
-[nunjucks] example:
+[Nunjucks] example:
 
 ```html
 {{ __('Hello, %s', user.name) }}
 ```
+
+[Pug] example:
+
+```pug
+p= __('Hello, %s', user.name)
+```
+
+[Koa-pug] integration:
+
+You can set the property *locals* on the KoaPug instance, where the default locals are stored.
+
+```js
+app.use(async (ctx, next) => {
+    koaPug.locals.__ = ctx.__.bind(ctx);
+    await next()
+});
+```
+
+## Debugging
+
+If you are interested on knowing what locale was chosen and why you can enable the debug messages from [debug].
+
+There is two level of verbosity:
+
+```sh
+$ DEBUG=koa-locales node .
+```
+With this line it only will show one line per request, with the chosen language and the origin where the locale come from (queryString, header or cookie).
+
+```sh
+$ DEBUG=koa-locales:silly node .
+```
+Use this level if something doesn't work as you expect. This is going to debug everything, including each translated line of text.
 
 ## License
 
@@ -114,3 +149,17 @@ this.state.__ = this.__.bind(this);
 
 
 [nunjucks]: https://www.npmjs.com/package/nunjucks
+[debug]: https://www.npmjs.com/package/debug
+[pug]: https://www.npmjs.com/package/pug
+[koa-pug]: https://www.npmjs.com/package/koa-pug
+
+[npm-image]: https://img.shields.io/npm/v/koa-locales.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/koa-locales
+[travis-image]: https://img.shields.io/travis/koajs/locales.svg?style=flat-square
+[travis-url]: https://travis-ci.org/koajs/locales
+[cov-image]: https://codecov.io/github/koajs/locales/coverage.svg?branch=master
+[cov-url]: https://codecov.io/github/koajs/locales?branch=master
+[david-image]: https://img.shields.io/david/koajs/locales.svg?style=flat-square
+[david-url]: https://david-dm.org/koajs/locales
+[download-image]: https://img.shields.io/npm/dm/koa-locales.svg?style=flat-square
+[download-url]: https://npmjs.org/package/koa-locales
