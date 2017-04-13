@@ -1,6 +1,8 @@
 'use strict';
 
-const debug = require('debug')('koa-locales');
+const Debug = require('debug');
+const debug = Debug('koa-locales');
+const debugSilly = Debug('koa-locales:silly');
 const ini = require('ini');
 const util = require('util');
 const fs = require('fs');
@@ -64,7 +66,7 @@ module.exports = function (app, options) {
     }
   }
 
-  debug('init locales with %j, got %j resources', options, Object.keys(resources));
+  debug('Init locales with %j, got %j resources', options, Object.keys(resources));
 
   app.context[functionName] = function (key, value) {
     if (arguments.length === 0) {
@@ -80,7 +82,7 @@ module.exports = function (app, options) {
       text = key;
     }
 
-    debug('%s: %j => %j', locale, key, text);
+    debugSilly('%s: %j => %j', locale, key, text);
     if (!text) {
       return '';
     }
@@ -128,7 +130,17 @@ module.exports = function (app, options) {
     }
 
     const cookieLocale = this.cookies.get(cookieField, { signed: false });
-    let locale = this.query[queryField] || cookieLocale;
+
+    // 1. Query
+    let locale = this.query[queryField];
+    let localeOrigin = 'query';
+
+    // 2. Cookie
+    if (!locale) {
+      locale = cookieLocale;
+      localeOrigin = 'cookie';
+    }
+
     if (!locale) {
       // Accept-Language: zh-CN,zh;q=0.5
       // Accept-Language: zh-CN
@@ -143,32 +155,36 @@ module.exports = function (app, options) {
               const lang = formatLocale(languages[i]);
               if (resources[lang]) {
                 locale = lang;
+                localeOrigin = 'header';
                 break;
               }
-            }
-            if (!locale) {
-              // set the first one
-              locale = languages[0];
             }
           }
         } else {
           locale = languages;
+          localeOrigin = 'header (only one accepted language)';
         }
       }
 
       // all missing, set it to defaultLocale
       if (!locale) {
         locale = defaultLocale;
+        localeOrigin = 'default';
       }
     }
 
     // cookie alias
-    if (locale in localeAlias) locale = localeAlias[locale];
+    if (locale in localeAlias) {
+      const originalLocale = locale;
+      locale = localeAlias[locale];
+      debugSilly('Used alias, received %s but using %s', originalLocale, locale);
+    }
 
     locale = formatLocale(locale);
 
     // validate locale
     if (!resources[locale]) {
+      debugSilly('Locale %s is not supported. Using default (%s)', locale, defaultLocale);
       locale = defaultLocale;
     }
 
@@ -181,7 +197,10 @@ module.exports = function (app, options) {
         maxAge: cookieMaxAge,
         signed: false,
       });
+      debugSilly('Saved cookie with locale %s', locale);
     }
+    debug('Locale: %s from %s', locale, localeOrigin);
+    debugSilly('Locale: %s from %s', locale, localeOrigin);
     this.__locale = locale;
     return locale;
   };
