@@ -141,6 +141,7 @@ module.exports = function (app, options) {
       localeOrigin = 'cookie';
     }
 
+    // 3. Header
     if (!locale) {
       // Accept-Language: zh-CN,zh;q=0.5
       // Accept-Language: zh-CN
