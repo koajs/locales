@@ -213,6 +213,33 @@ describe('koa-locales.test.js', function () {
         .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
         .expect(200, done);
       });
+
+      it('should use localeAlias header', function (done) {
+        request(cookieFieldMapApp.callback())
+        .get('/')
+        .set('Accept-Language', 'ja,de-de;q=0.8')
+        .expect({
+          email: 'Emailde',
+          hello: 'Hallo fengmk2, wie geht es dir heute?',
+          message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
+          empty: '',
+          notexists_key: 'key not exists',
+          empty_string: '',
+          empty_value: 'emptyValue',
+          novalue: 'key %s ok',
+          arguments3: '1 2 3',
+          arguments4: '1 2 3 4',
+          arguments5: '1 2 3 4 5',
+          arguments6: '1 2 3 4 5. 6',
+          values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
+        })
+        .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
+        .expect(200, done);
+      });
+
     });
 
     describe('cookie.locale', function () {
