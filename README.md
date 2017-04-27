@@ -23,11 +23,11 @@ $ npm install koa-locales --save
 ## Quick start
 
 ```js
-var koa = require('koa');
-var locales = require('koa-locales');
+const koa = require('koa');
+const locales = require('koa-locales');
 
-var app = koa();
-var options = {
+const app = koa();
+const options = {
   dirs: [__dirname + '/locales', __dirname + '/foo/locales'],
 };
 locales(app, options);
@@ -63,10 +63,10 @@ The key `options.localeAlias` allows to not repeat dictionary files, as you can 
 
 ```js
 locales({
-	localeAlias: {
-		es: es_ES,
-		en: en_UK
-	}
+  localeAlias: {
+    es: es_ES,
+    en: en_UK,
+  },
 });
 ```
 
@@ -122,8 +122,8 @@ You can set the property *locals* on the KoaPug instance, where the default loca
 
 ```js
 app.use(async (ctx, next) => {
-    koaPug.locals.__ = ctx.__.bind(ctx);
-    await next()
+  koaPug.locals.__ = ctx.__.bind(ctx);
+  await next();
 });
 ```
 

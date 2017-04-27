@@ -1,4 +1,9 @@
 
+1.7.0 / 2017-04-27
+==================
+
+  * feat: Add more debug information on a 'silly' level
+
 1.6.0 / 2017-04-27
 ==================
 
