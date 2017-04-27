@@ -141,7 +141,7 @@ module.exports = function (app, options) {
           if (languages.length > 0) {
             for (let i = 0; i < languages.length; i++) {
               const lang = formatLocale(languages[i]);
-              if (resources[lang]) {
+              if (resources[lang] || localeAlias[lang]) {
                 locale = lang;
                 break;
               }
