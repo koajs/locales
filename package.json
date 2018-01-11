@@ -1,6 +1,6 @@
 {
   "name": "koa-locales",
-  "version": "1.5.2",
+  "version": "1.7.0",
   "description": "koa locales, i18n solution for koa",
   "main": "index.js",
   "files": [

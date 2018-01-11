@@ -1,4 +1,14 @@
 
+1.7.0 / 2017-04-27
+==================
+
+  * feat: Add more debug information on a 'silly' level
+
+1.6.0 / 2017-04-27
+==================
+
+  * feat: support header lang from localeAlias (#27)
+
 1.5.2 / 2017-01-13
 ==================
 
