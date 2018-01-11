@@ -15,6 +15,7 @@ const DEFAULT_OPTIONS = {
   queryField: 'locale',
   cookieField: 'locale',
   localeAlias: {},
+  writeCookie: true,
   cookieMaxAge: '1y',
   dir: undefined,
   dirs: [ path.join(process.cwd(), 'locales') ],
@@ -27,6 +28,7 @@ module.exports = function (app, options) {
   const queryField = options.queryField;
   const cookieField = options.cookieField;
   const localeAlias = options.localeAlias;
+  const writeCookie = options.writeCookie;
   const cookieMaxAge = ms(options.cookieMaxAge);
   const localeDir = options.dir;
   const localeDirs = options.dirs;
@@ -190,7 +192,7 @@ module.exports = function (app, options) {
     }
 
     // if header not send, set the locale cookie
-    if (cookieLocale !== locale && !this.headerSent) {
+    if (writeCookie && cookieLocale !== locale && !this.headerSent) {
       // locale change, need to set cookie
       this.cookies.set(cookieField, locale, {
         // make sure brower javascript can read the cookie
