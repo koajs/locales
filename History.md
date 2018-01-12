@@ -1,4 +1,10 @@
 
+1.8.0 / 2018-01-12
+==================
+
+**features**
+  * [[`f89c675`](http://github.com/koajs/locales/commit/f89c6755c1b16a78617ceb071d1c9a8137c8c7a6)] - feat: add writeCookie option (#28) (Tao Xu <<angelxutao@gmail.com>>)
+
 1.7.0 / 2017-04-27
 ==================
 
