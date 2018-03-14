@@ -110,6 +110,23 @@ this.state.__ = this.__.bind(this);
 {{ __('Hello, %s', user.name) }}
 ```
 
+[Handlerbars] example: 
+
+Firstly need to register helper.
+
+```js
+hbs.registerHelper('__', function(key) {
+    return hbs.templateOptions.data.koa.__(key);
+});
+```
+
+Then use the helper in template file.
+
+```js
+{{ __ 'key.defined.in.locale.file' }}
+```
+
+
 [Pug] example:
 
 ```pug
