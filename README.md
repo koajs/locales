@@ -110,7 +110,7 @@ this.state.__ = this.__.bind(this);
 {{ __('Hello, %s', user.name) }}
 ```
 
-[Handlerbars] example: 
+[Handlebars] example: 
 
 Firstly need to register helper.
 
