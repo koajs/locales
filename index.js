@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const ms = require('humanize-ms');
 const assign = require('object-assign');
+const result = require('lodash.result');
 
 const DEFAULT_OPTIONS = {
   defaultLocale: 'en-US',
@@ -228,7 +229,7 @@ function formatWithArray(text, values) {
 const Object_INDEX_RE = /\{(.+?)\}/g;
 function formatWithObject(text, values) {
   return text.replace(Object_INDEX_RE, function (orignal, matched) {
-    const value = values[matched];
+    const value = result(values, matched);
     if (value) {
       return value;
     }

@@ -32,6 +32,7 @@ describe('koa-locales.test.js', function () {
         arguments6: '1 2 3 4 5. 6',
         values: 'foo bar foo bar {2} {100}',
         object: 'foo bar foo bar {z}',
+        nestedObject: 'foo bar',
         'gender': 'model.user.fields.gender',
         'name': 'model.user.fields.name',
       })
@@ -84,6 +85,7 @@ describe('koa-locales.test.js', function () {
         arguments6: '1 2 3 4 5. 6',
         values: 'foo bar foo bar {2} {100}',
         object: 'foo bar foo bar {z}',
+        nestedObject: 'foo bar',
         'gender': 'model.user.fields.gender',
         'name': 'model.user.fields.name',
       })
@@ -110,6 +112,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -135,6 +138,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -161,6 +165,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -186,6 +191,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -211,6 +217,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -236,6 +243,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -269,6 +277,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -301,6 +310,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -325,6 +335,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -349,6 +360,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性别',
           'name': '姓名',
         })
@@ -375,6 +387,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -401,6 +414,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -427,6 +441,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -455,6 +470,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': '性別',
           'name': '姓名',
         })
@@ -483,6 +499,7 @@ describe('koa-locales.test.js', function () {
           arguments6: '1 2 3 4 5. 6',
           values: 'foo bar foo bar {2} {100}',
           object: 'foo bar foo bar {z}',
+          nestedObject: 'foo bar',
           'gender': 'model.user.fields.gender',
           'name': 'model.user.fields.name',
         })
@@ -525,6 +542,7 @@ function createApp(options) {
       arguments6: this[fname]('%s %s %s %s %s.', 1, 2, 3, 4, 5, 6),
       values: this[fname]('{0} {1} {0} {1} {2} {100}', ['foo', 'bar']),
       object: this[fname]('{foo} {bar} {foo} {bar} {z}', {foo: 'foo', bar: 'bar'}),
+      nestedObject: this[fname]('{foo.bar} {bar}', {foo: { bar: 'foo'}, bar: 'bar'}),
     };
   });
 
