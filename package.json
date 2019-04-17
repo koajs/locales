@@ -41,8 +41,7 @@
     "web": "https://github.com/koajs/locales"
   },
   "bugs": {
-    "url": "https://github.com/koajs/locales/issues",
-    "email": "m@fengmk2.com"
+    "url": "https://github.com/koajs/locales/issues"
   },
   "keywords": [
     "koa-locales",
@@ -55,8 +54,8 @@
     "node": ">=4.0.0"
   },
   "ci": {
-    "version": "4, 6, 7"
+    "version": "4, 6, 8, 10, 11"
   },
-  "author": "fengmk2 <m@fengmk2.com> (https://fengmk2.com)",
+  "author": "fengmk2 <fengmk2@gmail.com> (https://fengmk2.com)",
   "license": "MIT"
 }

@@ -27,6 +27,7 @@ module.exports = function (app, options) {
   const defaultLocale = formatLocale(options.defaultLocale);
   const queryField = options.queryField;
   const cookieField = options.cookieField;
+  const cookieDomain = options.cookieDomain;
   const localeAlias = options.localeAlias;
   const writeCookie = options.writeCookie;
   const cookieMaxAge = ms(options.cookieMaxAge);
@@ -194,12 +195,14 @@ module.exports = function (app, options) {
     // if header not send, set the locale cookie
     if (writeCookie && cookieLocale !== locale && !this.headerSent) {
       // locale change, need to set cookie
-      this.cookies.set(cookieField, locale, {
+      const cookieOptions = {
         // make sure brower javascript can read the cookie
         httpOnly: false,
         maxAge: cookieMaxAge,
         signed: false,
-      });
+        domain: cookieDomain,
+      };
+      this.cookies.set(cookieField, locale, cookieOptions);
       debugSilly('Saved cookie with locale %s', locale);
     }
     debug('Locale: %s from %s', locale, localeOrigin);

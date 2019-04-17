@@ -35,7 +35,7 @@ describe('koa-locales.test.js', function () {
         'gender': 'model.user.fields.gender',
         'name': 'model.user.fields.name',
       })
-      .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+      .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=[^;]+ GMT$/)
       .expect(200, done);
     });
 
@@ -47,6 +47,37 @@ describe('koa-locales.test.js', function () {
         assert(!err, err && err.message);
         setTimeout(done, 50);
       });
+    });
+  });
+
+  describe('options.cookieDomain', function () {
+    const app = createApp({
+      cookieDomain: '.foo.com',
+    });
+
+    it('should use default locale: en-US', function (done) {
+      request(app.callback())
+      .get('/')
+      .expect({
+        email: 'Email',
+        hello: 'Hello fengmk2, how are you today?',
+        message: 'Hello fengmk2, how are you today? How was your 18.',
+        empty: '',
+        notexists_key: 'key not exists',
+        empty_string: '',
+        empty_value: 'emptyValue',
+        novalue: 'key %s ok',
+        arguments3: '1 2 3',
+        arguments4: '1 2 3 4',
+        arguments5: '1 2 3 4 5',
+        arguments6: '1 2 3 4 5. 6',
+        values: 'foo bar foo bar {2} {100}',
+        object: 'foo bar foo bar {z}',
+        'gender': 'model.user.fields.gender',
+        'name': 'model.user.fields.name',
+      })
+      .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=[^;]+; domain=.foo.com$/)
+      .expect(200, done);
     });
   });
 
