@@ -1,4 +1,10 @@
 
+1.9.0 / 2019-04-17
+==================
+
+**features**
+  * [[`08037ee`](http://github.com/koajs/locales/commit/08037ee0ae0a1d74a63d1d7112c79fa43ddf6cd0)] - feat: allow custom locale store cookie domain (#33) (fengmk2 <<fengmk2@gmail.com>>)
+
 1.8.0 / 2018-01-12
 ==================
 
