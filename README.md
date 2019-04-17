@@ -46,7 +46,8 @@ Patch locales functions to koa app.
   - {String} defaultLocale: default locale. Optional, default is `en-US`.
   - {String} queryField: locale field name on query. Optional, default is `locale`.
   - {String} cookieField: locale field name on cookie. Optional, default is `locale`.
-  - {Object} localeAlias: locale value map. Optional, default is {}.
+  - {String} cookieDomain: domain on cookie. Optional, default is `''`.
+  - {Object} localeAlias: locale value map. Optional, default is `{}`.
   - {String|Number} cookieMaxAge: set locale cookie value max age. Optional, default is `1y`, expired after one year.
 
 ```js
