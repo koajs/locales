@@ -30,7 +30,7 @@
     "istanbul": "*",
     "koa": "^1.2.4",
     "mm": "^2.0.0",
-    "mocha": "*",
+    "mocha": "4",
     "pedding": "^1.1.0",
     "supertest": "^2.0.1"
   },
