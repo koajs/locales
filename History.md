@@ -1,4 +1,10 @@
 
+1.10.0 / 2019-04-29
+==================
+
+**features**
+  * [[`3043365`](http://github.com/koajs/locales/commit/3043365e09cfd76bf6ef54a4cd7347a97d08fdc5)] - feat: add __getLocaleOrigin (#35) (Yiyu He <<dead_horse@qq.com>>)
+
 1.9.0 / 2019-04-17
 ==================
 
