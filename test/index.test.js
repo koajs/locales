@@ -521,6 +521,34 @@ describe('koa-locales.test.js', function () {
         .expect(200, done);
       });
     });
+
+    describe('__getLocale and __getLocaleOrigin', function() {
+      it('should __getLocale and __getLocaleOrigin from cookie', function () {
+        return request(app.callback())
+          .get('/methods')
+          .set('cookie', 'locale=de')
+          .expect(200, { locale: 'de', localeOrigin: 'cookie' });
+      });
+
+      it('should __getLocale and __getLocaleOrigin from query', function () {
+        return request(app.callback())
+          .get('/methods?locale=de')
+          .expect(200, { locale: 'de', localeOrigin: 'query' });
+      });
+
+      it('should __getLocale and __getLocaleOrigin from header', function () {
+        return request(app.callback())
+          .get('/methods')
+          .set('Accept-Language', 'zh-cn')
+          .expect(200, { locale: 'zh-cn', localeOrigin: 'header' });
+      });
+
+      it('should __getLocale and __getLocaleOrigin from default', function () {
+        return request(app.callback())
+          .get('/methods')
+          .expect(200, { locale: 'en-us', localeOrigin: 'default' });
+      });
+    });
   });
 });
 
@@ -530,6 +558,15 @@ function createApp(options) {
   const fname = options && options.functionName || '__';
 
   app.use(function* () {
+    if (this.path === '/methods') {
+      assert(this.__getLocaleOrigin() === this.__getLocaleOrigin());
+      this.body = {
+        locale: this.__getLocale(),
+        localeOrigin: this.__getLocaleOrigin(),
+      };
+      return;
+    }
+
     if (this.url === '/headerSent') {
       this.body = 'foo';
       const that = this;
