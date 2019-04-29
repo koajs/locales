@@ -99,6 +99,14 @@ __('{a} {a} {b} {b} {b}', {a: 'foo', b: 'bar'})
 'foo foo bar bar bar'
 ```
 
+### `context.__getLocale()`
+
+Get locale from query / cookie and header.
+
+### `context.__getLocaleOrigin()`
+
+Where does locale come from, could be `query`, `cookie`, `header` and `default`.
+
 ## Usage on template
 
 ```js

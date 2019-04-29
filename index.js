@@ -166,7 +166,7 @@ module.exports = function (app, options) {
           }
         } else {
           locale = languages;
-          localeOrigin = 'header (only one accepted language)';
+          localeOrigin = 'header';
         }
       }
 
@@ -208,7 +208,14 @@ module.exports = function (app, options) {
     debug('Locale: %s from %s', locale, localeOrigin);
     debugSilly('Locale: %s from %s', locale, localeOrigin);
     this.__locale = locale;
+    this.__localeOrigin = localeOrigin;
     return locale;
+  };
+
+  app.context.__getLocaleOrigin = function () {
+    if (this.__localeOrigin) return this.__localeOrigin;
+    this.__getLocale();
+    return this.__localeOrigin;
   };
 };
 

@@ -54,7 +54,7 @@
     "node": ">=4.0.0"
   },
   "ci": {
-    "version": "4, 6, 8, 10, 11"
+    "version": "4, 6, 8, 10, 12"
   },
   "author": "fengmk2 <fengmk2@gmail.com> (https://fengmk2.com)",
   "license": "MIT"
