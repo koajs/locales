@@ -1,4 +1,10 @@
 
+1.11.0 / 2019-04-30
+==================
+
+**features**
+  * [[`0767037`](http://github.com/koajs/locales/commit/0767037b3cd27ddf1b82a93f03ace79e76c0e400)] - feat: ctx.__setLocale (#36) (Yiyu He <<dead_horse@qq.com>>)
+
 1.10.0 / 2019-04-29
 ==================
 
