@@ -578,6 +578,8 @@ function createApp(options) {
     }
 
     if (this.path === '/set') {
+      this.__getLocale();
+      this.__setLocale('zh-tw');
       this.__setLocale('zh-hk');
       this.body = {
         locale: this.__getLocale(),

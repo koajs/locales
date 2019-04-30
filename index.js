@@ -222,7 +222,7 @@ module.exports = function (app, options) {
       maxAge: cookieMaxAge,
       signed: false,
       domain: cookieDomain,
-      override: true,
+      overwrite: true,
     };
     ctx.cookies.set(cookieField, locale, cookieOptions);
     debugSilly('Saved cookie with locale %s', locale);
