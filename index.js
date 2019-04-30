@@ -194,16 +194,7 @@ module.exports = function (app, options) {
 
     // if header not send, set the locale cookie
     if (writeCookie && cookieLocale !== locale && !this.headerSent) {
-      // locale change, need to set cookie
-      const cookieOptions = {
-        // make sure brower javascript can read the cookie
-        httpOnly: false,
-        maxAge: cookieMaxAge,
-        signed: false,
-        domain: cookieDomain,
-      };
-      this.cookies.set(cookieField, locale, cookieOptions);
-      debugSilly('Saved cookie with locale %s', locale);
+      updateCookie(this, locale);
     }
     debug('Locale: %s from %s', locale, localeOrigin);
     debugSilly('Locale: %s from %s', locale, localeOrigin);
@@ -217,6 +208,25 @@ module.exports = function (app, options) {
     this.__getLocale();
     return this.__localeOrigin;
   };
+
+  app.context.__setLocale = function (locale) {
+    this.__locale = locale;
+    this.__localeOrigin = 'set';
+    updateCookie(this, locale);
+  };
+
+  function updateCookie(ctx, locale) {
+    const cookieOptions = {
+      // make sure brower javascript can read the cookie
+      httpOnly: false,
+      maxAge: cookieMaxAge,
+      signed: false,
+      domain: cookieDomain,
+      overwrite: true,
+    };
+    ctx.cookies.set(cookieField, locale, cookieOptions);
+    debugSilly('Saved cookie with locale %s', locale);
+  }
 };
 
 function isObject(obj) {
