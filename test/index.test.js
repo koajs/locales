@@ -525,28 +525,38 @@ describe('koa-locales.test.js', function () {
     describe('__getLocale and __getLocaleOrigin', function() {
       it('should __getLocale and __getLocaleOrigin from cookie', function () {
         return request(app.callback())
-          .get('/methods')
+          .get('/origin')
           .set('cookie', 'locale=de')
           .expect(200, { locale: 'de', localeOrigin: 'cookie' });
       });
 
       it('should __getLocale and __getLocaleOrigin from query', function () {
         return request(app.callback())
-          .get('/methods?locale=de')
+          .get('/origin?locale=de')
           .expect(200, { locale: 'de', localeOrigin: 'query' });
       });
 
       it('should __getLocale and __getLocaleOrigin from header', function () {
         return request(app.callback())
-          .get('/methods')
+          .get('/origin')
           .set('Accept-Language', 'zh-cn')
           .expect(200, { locale: 'zh-cn', localeOrigin: 'header' });
       });
 
       it('should __getLocale and __getLocaleOrigin from default', function () {
         return request(app.callback())
-          .get('/methods')
+          .get('/origin')
           .expect(200, { locale: 'en-us', localeOrigin: 'default' });
+      });
+    });
+
+    describe('__setLocale', function() {
+      it('should set locale and cookie', function () {
+        return request(app.callback())
+          .get('/set')
+          .set('cookie', 'locale=de')
+          .expect(200, { locale: 'zh-hk', localeOrigin: 'set' })
+          .expect('Set-Cookie', /^locale=zh\-hk; path=\/; expires=[^;]+ GMT$/);
       });
     });
   });
@@ -558,8 +568,17 @@ function createApp(options) {
   const fname = options && options.functionName || '__';
 
   app.use(function* () {
-    if (this.path === '/methods') {
+    if (this.path === '/origin') {
       assert(this.__getLocaleOrigin() === this.__getLocaleOrigin());
+      this.body = {
+        locale: this.__getLocale(),
+        localeOrigin: this.__getLocaleOrigin(),
+      };
+      return;
+    }
+
+    if (this.path === '/set') {
+      this.__setLocale('zh-hk');
       this.body = {
         locale: this.__getLocale(),
         localeOrigin: this.__getLocaleOrigin(),
