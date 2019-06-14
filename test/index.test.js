@@ -5,10 +5,9 @@ const koa = require('koa');
 const request = require('supertest');
 const pedding = require('pedding');
 const mm = require('mm');
-const locales = require('../');
+const locales = require('..');
 
 describe('koa-locales.test.js', function () {
-
   afterEach(mm.restore);
 
   describe('default options', function () {
@@ -119,6 +118,15 @@ describe('koa-locales.test.js', function () {
         'name': 'model.user.fields.name',
       })
       .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+      .expect(200, done);
+    });
+
+    it('should gettext work on app.__(locale, key, value)', function (done) {
+      request(app.callback())
+      .get('/app_locale_zh')
+      .expect({
+        email: '邮箱1',
+      })
       .expect(200, done);
     });
 
@@ -568,6 +576,13 @@ function createApp(options) {
   const fname = options && options.functionName || '__';
 
   app.use(function* () {
+    if (this.url === '/app_locale_zh') {
+      this.body = {
+        email: this.app[fname]('zh-cn', 'Email'),
+      };
+      return;
+    }
+
     if (this.path === '/origin') {
       assert(this.__getLocaleOrigin() === this.__getLocaleOrigin());
       this.body = {

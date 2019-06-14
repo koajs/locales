@@ -76,9 +76,9 @@ locales({
 Get current request locale text.
 
 ```js
-function* home() {
-  this.body = {
-    message: this.__('Hello, %s', 'fengmk2'),
+async function home(ctx) {
+  ctx.body = {
+    message: ctx.__('Hello, %s', 'fengmk2'),
   };
 }
 ```
@@ -110,6 +110,15 @@ Set locale and cookie.
 ### `context.__getLocaleOrigin()`
 
 Where does locale come from, could be `query`, `cookie`, `header` and `default`.
+
+### `app.__(locale, key[, value1[, value2, ...]])`
+
+Get the given locale text on application level.
+
+```js
+console.log(app.__('zh', 'Hello'));
+// stdout '你好' for Chinese
+```
 
 ## Usage on template
 

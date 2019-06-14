@@ -71,13 +71,17 @@ module.exports = function (app, options) {
 
   debug('Init locales with %j, got %j resources', options, Object.keys(resources));
 
-  app.context[functionName] = function (key, value) {
-    if (arguments.length === 0) {
+  if (typeof app[functionName] !== 'undefined') {
+    console.warn('[koa-locales] will override exists "%s" function on app', functionName);
+  }
+
+  function gettext(locale, key, value) {
+    if (arguments.length === 0 || arguments.length === 1) {
       // __()
+      // --('en')
       return '';
     }
 
-    const locale = this.__getLocale();
     const resource = resources[locale] || {};
 
     let text = resource[key];
@@ -90,38 +94,61 @@ module.exports = function (app, options) {
       return '';
     }
 
-    if (arguments.length === 1) {
-      // __(key)
+    if (arguments.length === 2) {
+      // __(locale, key)
       return text;
     }
-    if (arguments.length === 2) {
+    if (arguments.length === 3) {
       if (isObject(value)) {
-        // __(key, object)
-        // __('{a} {b} {b} {a}', {a: 'foo', b: 'bar'})
+        // __(locale, key, object)
+        // __('zh', '{a} {b} {b} {a}', {a: 'foo', b: 'bar'})
         // =>
         // foo bar bar foo
         return formatWithObject(text, value);
       }
 
       if (Array.isArray(value)) {
-        // __(key, array)
-        // __('{0} {1} {1} {0}', ['foo', 'bar'])
+        // __(locale, key, array)
+        // __('zh', '{0} {1} {1} {0}', ['foo', 'bar'])
         // =>
         // foo bar bar foo
         return formatWithArray(text, value);
       }
 
-      // __(key, value)
+      // __(locale, key, value)
       return util.format(text, value);
     }
 
-    // __(key, value1, ...)
-    const args = new Array(arguments.length);
+    // __(locale, key, value1, ...)
+    const args = new Array(arguments.length - 1);
     args[0] = text;
-    for(let i = 1; i < args.length; i++) {
-      args[i] = arguments[i];
+    for(let i = 2; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
     }
     return util.format.apply(util, args);
+  }
+
+  app[functionName] = gettext;
+
+  app.context[functionName] = function (key, value) {
+    if (arguments.length === 0) {
+      // __()
+      return '';
+    }
+
+    const locale = this.__getLocale();
+    if (arguments.length === 1) {
+      return gettext(locale, key);
+    }
+    if (arguments.length === 2) {
+      return gettext(locale, key, value);
+    }
+    const args = new Array(arguments.length + 1);
+    args[0] = locale;
+    for(let i = 0; i < arguments.length; i++) {
+      args[i + 1] = arguments[i];
+    }
+    return gettext.apply(this, args);
   };
 
   // 1. query: /?locale=en-US
