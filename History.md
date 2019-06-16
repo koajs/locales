@@ -1,4 +1,10 @@
 
+1.12.0 / 2019-06-16
+==================
+
+**features**
+  * [[`47162d3`](http://github.com/koajs/locales/commit/47162d3230427957bfb16644f4db6e3c5490b830)] - feat: gettext from app (#38) (fengmk2 <<fengmk2@gmail.com>>)
+
 1.11.0 / 2019-04-30
 ==================
 
