@@ -15,37 +15,37 @@ describe('koa-locales.test.js', function () {
 
     it('should use default locale: en-US', function (done) {
       request(app.callback())
-      .get('/')
-      .expect({
-        email: 'Email',
-        hello: 'Hello fengmk2, how are you today?',
-        message: 'Hello fengmk2, how are you today? How was your 18.',
-        empty: '',
-        notexists_key: 'key not exists',
-        empty_string: '',
-        empty_value: 'emptyValue',
-        novalue: 'key %s ok',
-        arguments3: '1 2 3',
-        arguments4: '1 2 3 4',
-        arguments5: '1 2 3 4 5',
-        arguments6: '1 2 3 4 5. 6',
-        values: 'foo bar foo bar {2} {100}',
-        object: 'foo bar foo bar {z}',
-        'gender': 'model.user.fields.gender',
-        'name': 'model.user.fields.name',
-      })
-      .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=[^;]+ GMT$/)
-      .expect(200, done);
+        .get('/')
+        .expect({
+          email: 'Email',
+          hello: 'Hello fengmk2, how are you today?',
+          message: 'Hello fengmk2, how are you today? How was your 18.',
+          empty: '',
+          notexists_key: 'key not exists',
+          empty_string: '',
+          empty_value: 'emptyValue',
+          novalue: 'key %s ok',
+          arguments3: '1 2 3',
+          arguments4: '1 2 3 4',
+          arguments5: '1 2 3 4 5',
+          arguments6: '1 2 3 4 5. 6',
+          values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
+        })
+        .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=[^;]+ GMT$/)
+        .expect(200, done);
     });
 
-    it('should not set locale cookie after header sent', function(done) {
+    it('should not set locale cookie after header sent', function (done) {
       request(app.callback())
-      .get('/headerSent')
-      .expect('foo')
-      .expect(200, function(err) {
-        assert(!err, err && err.message);
-        setTimeout(done, 50);
-      });
+        .get('/headerSent')
+        .expect('foo')
+        .expect(200, function (err) {
+          assert(!err, err && err.message);
+          setTimeout(done, 50);
+        });
     });
   });
 
@@ -56,27 +56,27 @@ describe('koa-locales.test.js', function () {
 
     it('should use default locale: en-US', function (done) {
       request(app.callback())
-      .get('/')
-      .expect({
-        email: 'Email',
-        hello: 'Hello fengmk2, how are you today?',
-        message: 'Hello fengmk2, how are you today? How was your 18.',
-        empty: '',
-        notexists_key: 'key not exists',
-        empty_string: '',
-        empty_value: 'emptyValue',
-        novalue: 'key %s ok',
-        arguments3: '1 2 3',
-        arguments4: '1 2 3 4',
-        arguments5: '1 2 3 4 5',
-        arguments6: '1 2 3 4 5. 6',
-        values: 'foo bar foo bar {2} {100}',
-        object: 'foo bar foo bar {z}',
-        'gender': 'model.user.fields.gender',
-        'name': 'model.user.fields.name',
-      })
-      .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=[^;]+; domain=.foo.com$/)
-      .expect(200, done);
+        .get('/')
+        .expect({
+          email: 'Email',
+          hello: 'Hello fengmk2, how are you today?',
+          message: 'Hello fengmk2, how are you today? How was your 18.',
+          empty: '',
+          notexists_key: 'key not exists',
+          empty_string: '',
+          empty_value: 'emptyValue',
+          novalue: 'key %s ok',
+          arguments3: '1 2 3',
+          arguments4: '1 2 3 4',
+          arguments5: '1 2 3 4 5',
+          arguments6: '1 2 3 4 5. 6',
+          values: 'foo bar foo bar {2} {100}',
+          object: 'foo bar foo bar {z}',
+          'gender': 'model.user.fields.gender',
+          'name': 'model.user.fields.name',
+        })
+        .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=[^;]+; domain=.foo.com$/)
+        .expect(200, done);
     });
   });
 
@@ -98,118 +98,7 @@ describe('koa-locales.test.js', function () {
 
     it('should use default locale: en-US', function (done) {
       request(app.callback())
-      .get('/')
-      .expect({
-        email: 'Email',
-        hello: 'Hello fengmk2, how are you today?',
-        message: 'Hello fengmk2, how are you today? How was your 18.',
-        empty: '',
-        notexists_key: 'key not exists',
-        empty_string: '',
-        empty_value: 'emptyValue',
-        novalue: 'key %s ok',
-        arguments3: '1 2 3',
-        arguments4: '1 2 3 4',
-        arguments5: '1 2 3 4 5',
-        arguments6: '1 2 3 4 5. 6',
-        values: 'foo bar foo bar {2} {100}',
-        object: 'foo bar foo bar {z}',
-        'gender': 'model.user.fields.gender',
-        'name': 'model.user.fields.name',
-      })
-      .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
-      .expect(200, done);
-    });
-
-    it('should gettext work on app.__(locale, key, value)', function (done) {
-      request(app.callback())
-      .get('/app_locale_zh')
-      .expect({
-        email: '邮箱1',
-      })
-      .expect(200, done);
-    });
-
-    describe('query.locale', function () {
-      it('should use query locale: zh-CN', function (done) {
-        request(app.callback())
-        .get('/?locale=zh-CN')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
-        .expect(200, done);
-      });
-
-      it('should use query locale: de on *.properties format', function (done) {
-        request(app.callback())
-        .get('/?locale=de')
-        .expect({
-          email: 'Emailde',
-          hello: 'Hallo fengmk2, wie geht es dir heute?',
-          message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: 'emptyValue',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': 'model.user.fields.gender',
-          'name': 'model.user.fields.name',
-        })
-        .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
-        .expect(200, done);
-      });
-
-      it('should use query locale and change cookie locale', function (done) {
-        request(app.callback())
-        .get('/?locale=zh-CN')
-        .set('cookie', 'locale=zh-TW')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
-        .expect(200, done);
-      });
-
-      it('should ignore invalid locale value', function (done) {
-        request(app.callback())
-        .get('/?locale=xss')
+        .get('/')
         .expect({
           email: 'Email',
           hello: 'Hello fengmk2, how are you today?',
@@ -230,60 +119,171 @@ describe('koa-locales.test.js', function () {
         })
         .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
         .expect(200, done);
+    });
+
+    it('should gettext work on app.__(locale, key, value)', function (done) {
+      request(app.callback())
+        .get('/app_locale_zh')
+        .expect({
+          email: '邮箱1',
+        })
+        .expect(200, done);
+    });
+
+    describe('query.locale', function () {
+      it('should use query locale: zh-CN', function (done) {
+        request(app.callback())
+          .get('/?locale=zh-CN')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
+          .expect(200, done);
+      });
+
+      it('should use query locale: de on *.properties format', function (done) {
+        request(app.callback())
+          .get('/?locale=de')
+          .expect({
+            email: 'Emailde',
+            hello: 'Hallo fengmk2, wie geht es dir heute?',
+            message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
+          .expect(200, done);
+      });
+
+      it('should use query locale and change cookie locale', function (done) {
+        request(app.callback())
+          .get('/?locale=zh-CN')
+          .set('cookie', 'locale=zh-TW')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
+          .expect(200, done);
+      });
+
+      it('should ignore invalid locale value', function (done) {
+        request(app.callback())
+          .get('/?locale=xss')
+          .expect({
+            email: 'Email',
+            hello: 'Hello fengmk2, how are you today?',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should use localeAlias', function (done) {
         request(cookieFieldMapApp.callback())
-        .get('/?locale=de-de')
-        .expect({
-          email: 'Emailde',
-          hello: 'Hallo fengmk2, wie geht es dir heute?',
-          message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: 'emptyValue',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': 'model.user.fields.gender',
-          'name': 'model.user.fields.name',
-        })
-        .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=de-de')
+          .expect({
+            email: 'Emailde',
+            hello: 'Hallo fengmk2, wie geht es dir heute?',
+            message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should use query locale and response without set-cookie', function (done) {
         request(appNotWriteCookie.callback())
-        .get('/?locale=zh-CN')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect(function(res) {
-          if(res.headers['set-cookie'] || res.headers['Set-Cookie']){
-            throw new Error('should not write cookie');
-          }
-        })
-        .expect(200, done);
+          .get('/?locale=zh-CN')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect(function (res) {
+            if (res.headers['set-cookie'] || res.headers['Set-Cookie']) {
+              throw new Error('should not write cookie');
+            }
+          })
+          .expect(200, done);
       });
 
     });
@@ -291,30 +291,30 @@ describe('koa-locales.test.js', function () {
     describe('cookie.locale', function () {
       it('should use cookie locale: zh-CN', function (done) {
         request(app.callback())
-        .get('/?locale=')
-        .set('cookie', 'locale=zh-cn')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect(function (res) {
-          assert(!res.headers['set-cookie']);
-        })
-        .expect(200, done);
+          .get('/?locale=')
+          .set('cookie', 'locale=zh-cn')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect(function (res) {
+            assert(!res.headers['set-cookie']);
+          })
+          .expect(200, done);
       });
     });
 
@@ -323,154 +323,154 @@ describe('koa-locales.test.js', function () {
         done = pedding(3, done);
 
         request(app.callback())
-        .get('/?locale=')
-        .set('Accept-Language', 'zh-CN')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=')
+          .set('Accept-Language', 'zh-CN')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
+          .expect(200, done);
 
         request(app.callback())
-        .get('/?locale=')
-        .set('Accept-Language', 'zh-CN,zh;q=0.8')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=')
+          .set('Accept-Language', 'zh-CN,zh;q=0.8')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
+          .expect(200, done);
 
         request(app.callback())
-        .get('/?locale=')
-        .set('Accept-Language', 'en;q=0.8, es, zh_CN')
-        .expect({
-          email: '邮箱1',
-          hello: 'fengmk2，今天过得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性别',
-          'name': '姓名',
-        })
-        .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=')
+          .set('Accept-Language', 'en;q=0.8, es, zh_CN')
+          .expect({
+            email: '邮箱1',
+            hello: 'fengmk2，今天过得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性别',
+            'name': '姓名',
+          })
+          .expect('Set-Cookie', /^locale=zh\-cn; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should work with "Accept-Language: " header', function (done) {
         request(app.callback())
-        .get('/?locale=')
-        .set('Accept-Language', '')
-        .expect({
-          email: 'Email',
-          hello: 'Hello fengmk2, how are you today?',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: 'emptyValue',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': 'model.user.fields.gender',
-          'name': 'model.user.fields.name',
-        })
-        .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=')
+          .set('Accept-Language', '')
+          .expect({
+            email: 'Email',
+            hello: 'Hello fengmk2, how are you today?',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should work with "Accept-Language: en"', function (done) {
         request(app.callback())
-        .get('/')
-        .set('Accept-Language', 'en')
-        .expect({
-          email: 'Email',
-          hello: 'Hello fengmk2, how are you today?',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: 'emptyValue',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': 'model.user.fields.gender',
-          'name': 'model.user.fields.name',
-        })
-        .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/')
+          .set('Accept-Language', 'en')
+          .expect({
+            email: 'Email',
+            hello: 'Hello fengmk2, how are you today?',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should work with "Accept-Language: de-de" by localeAlias', function (done) {
         request(cookieFieldMapApp.callback())
-        .get('/')
-        .set('Accept-Language', 'ja,de-de;q=0.8')
-        .expect({
-          email: 'Emailde',
-          hello: 'Hallo fengmk2, wie geht es dir heute?',
-          message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: 'emptyValue',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': 'model.user.fields.gender',
-          'name': 'model.user.fields.name',
-        })
-        .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/')
+          .set('Accept-Language', 'ja,de-de;q=0.8')
+          .expect({
+            email: 'Emailde',
+            hello: 'Hallo fengmk2, wie geht es dir heute?',
+            message: 'Hallo fengmk2, wie geht es dir heute? Wie war dein 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=de; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should mock acceptsLanguages return string', function (done) {
@@ -478,27 +478,56 @@ describe('koa-locales.test.js', function () {
           return 'zh-TW';
         });
         request(app.callback())
-        .get('/?locale=')
-        .expect({
-          email: '郵箱',
-          hello: 'fengmk2，今天過得如何？',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: '',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': '性別',
-          'name': '姓名',
-        })
-        .expect('Set-Cookie', /^locale=zh\-tw; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=')
+          .expect({
+            email: '郵箱',
+            hello: 'fengmk2，今天過得如何？',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': '性別',
+            'name': '姓名',
+          })
+          .expect('Set-Cookie', /^locale=zh\-tw; path=\/; expires=\w+/)
+          .expect(200, done);
+      });
+
+      it('should mock acceptsLanguages return string', function (done) {
+        mm(app.request, 'acceptsLanguages', function () {
+          return 'fr';
+        });
+        request(app.callback())
+          .get('/?locale=fr')
+          .set('Accept-Language', 'fr;q=0.8, fr, fr')
+          .expect({
+            email: 'le email',
+            hello: 'fengmk2, Comment allez-vous',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: '',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            gender: 'le sexe',
+            name: 'prénom',
+          })
+          .expect('Set-Cookie', /^locale=fr; path=\/; expires=\w+/)
+          .expect(200, done);
       });
 
       it('should mock acceptsLanguages return null', function (done) {
@@ -506,31 +535,31 @@ describe('koa-locales.test.js', function () {
           return null;
         });
         request(app.callback())
-        .get('/?locale=')
-        .expect({
-          email: 'Email',
-          hello: 'Hello fengmk2, how are you today?',
-          message: 'Hello fengmk2, how are you today? How was your 18.',
-          empty: '',
-          notexists_key: 'key not exists',
-          empty_string: '',
-          empty_value: 'emptyValue',
-          novalue: 'key %s ok',
-          arguments3: '1 2 3',
-          arguments4: '1 2 3 4',
-          arguments5: '1 2 3 4 5',
-          arguments6: '1 2 3 4 5. 6',
-          values: 'foo bar foo bar {2} {100}',
-          object: 'foo bar foo bar {z}',
-          'gender': 'model.user.fields.gender',
-          'name': 'model.user.fields.name',
-        })
-        .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
-        .expect(200, done);
+          .get('/?locale=')
+          .expect({
+            email: 'Email',
+            hello: 'Hello fengmk2, how are you today?',
+            message: 'Hello fengmk2, how are you today? How was your 18.',
+            empty: '',
+            notexists_key: 'key not exists',
+            empty_string: '',
+            empty_value: 'emptyValue',
+            novalue: 'key %s ok',
+            arguments3: '1 2 3',
+            arguments4: '1 2 3 4',
+            arguments5: '1 2 3 4 5',
+            arguments6: '1 2 3 4 5. 6',
+            values: 'foo bar foo bar {2} {100}',
+            object: 'foo bar foo bar {z}',
+            'gender': 'model.user.fields.gender',
+            'name': 'model.user.fields.name',
+          })
+          .expect('Set-Cookie', /^locale=en\-us; path=\/; expires=\w+/)
+          .expect(200, done);
       });
     });
 
-    describe('__getLocale and __getLocaleOrigin', function() {
+    describe('__getLocale and __getLocaleOrigin', function () {
       it('should __getLocale and __getLocaleOrigin from cookie', function () {
         return request(app.callback())
           .get('/origin')
@@ -558,7 +587,7 @@ describe('koa-locales.test.js', function () {
       });
     });
 
-    describe('__setLocale', function() {
+    describe('__setLocale', function () {
       it('should set locale and cookie', function () {
         return request(app.callback())
           .get('/set')
@@ -606,7 +635,7 @@ function createApp(options) {
     if (this.url === '/headerSent') {
       this.body = 'foo';
       const that = this;
-      setTimeout(function() {
+      setTimeout(function () {
         that[fname]('Email');
       }, 10);
       return;
@@ -628,7 +657,7 @@ function createApp(options) {
       arguments5: this[fname]('%s %s %s %s %s', 1, 2, 3, 4, 5),
       arguments6: this[fname]('%s %s %s %s %s.', 1, 2, 3, 4, 5, 6),
       values: this[fname]('{0} {1} {0} {1} {2} {100}', ['foo', 'bar']),
-      object: this[fname]('{foo} {bar} {foo} {bar} {z}', {foo: 'foo', bar: 'bar'}),
+      object: this[fname]('{foo} {bar} {foo} {bar} {z}', { foo: 'foo', bar: 'bar' }),
     };
   });
 

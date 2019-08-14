@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const ms = require('humanize-ms');
 const assign = require('object-assign');
+const yaml = require('js-yaml');
 
 const DEFAULT_OPTIONS = {
   defaultLocale: 'en-US',
@@ -18,7 +19,7 @@ const DEFAULT_OPTIONS = {
   writeCookie: true,
   cookieMaxAge: '1y',
   dir: undefined,
-  dirs: [ path.join(process.cwd(), 'locales') ],
+  dirs: [path.join(process.cwd(), 'locales')],
   functionName: '__',
 };
 
@@ -62,6 +63,8 @@ module.exports = function (app, options) {
         resource = flattening(require(filepath));
       } else if (name.endsWith('.properties')) {
         resource = ini.parse(fs.readFileSync(filepath, 'utf8'));
+      } else if (name.endsWith('.yml') || name.endsWith('.yaml')) {
+        resource = flattening(yaml.safeLoad(fs.readFileSync(filepath, 'utf8')));
       }
 
       resources[locale] = resources[locale] || {};
@@ -122,7 +125,7 @@ module.exports = function (app, options) {
     // __(locale, key, value1, ...)
     const args = new Array(arguments.length - 1);
     args[0] = text;
-    for(let i = 2; i < arguments.length; i++) {
+    for (let i = 2; i < arguments.length; i++) {
       args[i - 1] = arguments[i];
     }
     return util.format.apply(util, args);
@@ -145,7 +148,7 @@ module.exports = function (app, options) {
     }
     const args = new Array(arguments.length + 1);
     args[0] = locale;
-    for(let i = 0; i < arguments.length; i++) {
+    for (let i = 0; i < arguments.length; i++) {
       args[i + 1] = arguments[i];
     }
     return gettext.apply(this, args);
@@ -293,8 +296,8 @@ function flattening(data) {
 
   const result = {};
 
-  function deepFlat (data, keys) {
-    Object.keys(data).forEach(function(key) {
+  function deepFlat(data, keys) {
+    Object.keys(data).forEach(function (key) {
       const value = data[key];
       const k = keys ? keys + '.' + key : key;
       if (isObject(value)) {
