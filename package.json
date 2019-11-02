@@ -26,7 +26,7 @@
     "benchmark": "^2.1.3",
     "contributors": "*",
     "egg-ci": "^1.1.0",
-    "eslint": "1",
+    "eslint": "6",
     "istanbul": "*",
     "koa": "^1.2.4",
     "mm": "^2.0.0",
