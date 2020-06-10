@@ -103,7 +103,7 @@ __('{a} {a} {b} {b} {b}', {a: 'foo', b: 'bar'})
 
 Get locale from query / cookie and header.
 
-### `context.setLocale()`
+### `context.__setLocale()`
 
 Set locale and cookie.
 
