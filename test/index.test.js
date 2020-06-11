@@ -1,7 +1,8 @@
 'use strict';
 
 const assert = require('assert');
-const koa = require('koa');
+const Koa = require('Koa');
+const convert = require('koa-convert');
 const request = require('supertest');
 const pedding = require('pedding');
 const mm = require('mm');
@@ -600,11 +601,13 @@ describe('koa-locales.test.js', function () {
 });
 
 function createApp(options) {
-  const app = koa();
+  const app = new Koa();
   locales(app, options);
   const fname = options && options.functionName || '__';
 
-  app.use(function* () {
+  // koa-convert to switch between Koa versions
+  // (@1.x.x/@2.x.x) >> easily check compatibility
+  app.use(convert(function* () {
     if (this.url === '/app_locale_zh') {
       this.body = {
         email: this.app[fname]('zh-cn', 'Email'),
@@ -659,7 +662,7 @@ function createApp(options) {
       values: this[fname]('{0} {1} {0} {1} {2} {100}', ['foo', 'bar']),
       object: this[fname]('{foo} {bar} {foo} {bar} {z}', { foo: 'foo', bar: 'bar' }),
     };
-  });
+  }));
 
   return app;
 }
