@@ -7,9 +7,9 @@
     "index.js"
   ],
   "scripts": {
-    "test": "eslint . && mocha -R spec -t 5000 test/*.test.js",
+    "test": "xo && mocha -R spec -t 5000 test/*.test.js",
     "cov": "istanbul cover _mocha -- -t 5000 test/*.test.js",
-    "lint": "eslint .",
+    "lint": "xo",
     "ci": "npm run lint && npm run cov",
     "autod": "autod -w --prefix '^'",
     "contributors": "contributors -f plain -o AUTHORS"
@@ -28,13 +28,37 @@
     "benchmark": "^2.1.3",
     "contributors": "*",
     "egg-ci": "^1.1.0",
+    "eslint-config-xo-lass": "^1.0.3",
     "eslint": "1",
     "istanbul": "*",
     "koa": "^1.2.4",
     "mm": "^2.0.0",
     "mocha": "4",
     "pedding": "^1.1.0",
-    "supertest": "^2.0.1"
+    "supertest": "^2.0.1",
+    "xo": "^0.25.3"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "space": true,
+    "extends": [
+      "xo-lass"
+    ],
+    "ignore": [
+      "test",
+      "benchmark"
+    ],
+    "rules": {
+      "node/no-deprecated-api": "off",
+      "no-unused-vars": "off",
+      "no-prototype-builtins": "off",
+      "prefer-rest-params": "off"
+    }
   },
   "homepage": "https://github.com/koajs/locales",
   "repository": {
