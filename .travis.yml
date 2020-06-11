@@ -5,8 +5,9 @@ node_js:
   - 12
   - 14
 before_script: 
-  - npm install 
+  - npm i -g yarn
+  - yarn
 script:
-  - npm run ci
+  - yarn run ci
 after_script:
-  - npm install codecov && codecov
+  - yarn install codecov && codecov
