@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('assert');
-const Koa = require('Koa');
+const Koa = require('koa');
 const convert = require('koa-convert');
 const request = require('supertest');
 const pedding = require('pedding');
