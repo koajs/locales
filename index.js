@@ -1,8 +1,8 @@
 'use strict';
 
 const Debug = require('debug');
-const debug = Debug('koa-locales');
-const debugSilly = Debug('koa-locales:silly');
+const debug = Debug('koa-locales'); // eslint-disable-line new-cap
+const debugSilly = Debug('koa-locales:silly'); // eslint-disable-line new-cap
 const ini = require('ini');
 const util = require('util');
 const fs = require('fs');
@@ -20,62 +20,60 @@ const DEFAULT_OPTIONS = {
   cookieMaxAge: '1y',
   dir: undefined,
   dirs: [path.join(process.cwd(), 'locales')],
-  functionName: '__',
+  functionName: '__'
 };
 
-module.exports = function (app, options) {
+module.exports = function(app, options) {
   options = assign({}, DEFAULT_OPTIONS, options);
   const defaultLocale = formatLocale(options.defaultLocale);
-  const queryField = options.queryField;
-  const cookieField = options.cookieField;
-  const cookieDomain = options.cookieDomain;
-  const localeAlias = options.localeAlias;
-  const writeCookie = options.writeCookie;
+  const { queryField } = options;
+  const { cookieField } = options;
+  const { cookieDomain } = options;
+  const { localeAlias } = options;
+  const { writeCookie } = options;
   const cookieMaxAge = ms(options.cookieMaxAge);
   const localeDir = options.dir;
   const localeDirs = options.dirs;
-  const functionName = options.functionName;
+  const { functionName } = options;
   const resources = {};
 
   /**
    * @Deprecated Use options.dirs instead.
    */
-  if (localeDir && localeDirs.indexOf(localeDir) === -1) {
-    localeDirs.push(localeDir);
-  }
+  if (localeDir && !localeDirs.includes(localeDir)) localeDirs.push(localeDir);
 
-  for (let i = 0; i < localeDirs.length; i++) {
-    const dir = localeDirs[i];
-
-    if (!fs.existsSync(dir)) {
-      continue;
-    }
+  for (const dir of localeDirs) {
+    if (!fs.existsSync(dir)) continue;
 
     const names = fs.readdirSync(dir);
-    for (let j = 0; j < names.length; j++) {
-      const name = names[j];
+    for (const name of names) {
       const filepath = path.join(dir, name);
       // support en_US.js => en-US.js
       const locale = formatLocale(name.split('.')[0]);
-      let resource = {};
-
-      if (name.endsWith('.js') || name.endsWith('.json')) {
-        resource = flattening(require(filepath));
-      } else if (name.endsWith('.properties')) {
-        resource = ini.parse(fs.readFileSync(filepath, 'utf8'));
-      } else if (name.endsWith('.yml') || name.endsWith('.yaml')) {
-        resource = flattening(yaml.safeLoad(fs.readFileSync(filepath, 'utf8')));
-      }
-
+      const resource =
+        name.endsWith('.js') || name.endsWith('.json')
+          ? flattening(require(filepath))
+          : name.endsWith('.properties')
+          ? ini.parse(fs.readFileSync(filepath, 'utf8'))
+          : name.endsWith('.yml') || name.endsWith('.yaml')
+          ? flattening(yaml.safeLoad(fs.readFileSync(filepath, 'utf8')))
+          : {};
       resources[locale] = resources[locale] || {};
       assign(resources[locale], resource);
     }
   }
 
-  debug('Init locales with %j, got %j resources', options, Object.keys(resources));
+  debug(
+    'Init locales with %j, got %j resources',
+    options,
+    Object.keys(resources)
+  );
 
   if (typeof app[functionName] !== 'undefined') {
-    console.warn('[koa-locales] will override exists "%s" function on app', functionName);
+    console.warn(
+      '[koa-locales] will override exists "%s" function on app',
+      functionName
+    );
   }
 
   function gettext(locale, key, value) {
@@ -88,19 +86,16 @@ module.exports = function (app, options) {
     const resource = resources[locale] || {};
 
     let text = resource[key];
-    if (text === undefined) {
-      text = key;
-    }
+    if (text === undefined) text = key;
 
     debugSilly('%s: %j => %j', locale, key, text);
-    if (!text) {
-      return '';
-    }
+    if (!text) return '';
 
     if (arguments.length === 2) {
       // __(locale, key)
       return text;
     }
+
     if (arguments.length === 3) {
       if (isObject(value)) {
         // __(locale, key, object)
@@ -125,42 +120,37 @@ module.exports = function (app, options) {
     // __(locale, key, value1, ...)
     const args = new Array(arguments.length - 1);
     args[0] = text;
-    for (let i = 2; i < arguments.length; i++) {
-      args[i - 1] = arguments[i];
-    }
+    for (let i = 2; i < arguments.length; i++) args[i - 1] = arguments[i];
+
+    // eslint-disable-next-line prefer-spread
     return util.format.apply(util, args);
   }
 
   app[functionName] = gettext;
 
-  app.context[functionName] = function (key, value) {
+  app.context[functionName] = function(key, value) {
     if (arguments.length === 0) {
       // __()
       return '';
     }
 
     const locale = this.__getLocale();
-    if (arguments.length === 1) {
-      return gettext(locale, key);
-    }
-    if (arguments.length === 2) {
-      return gettext(locale, key, value);
-    }
+    if (arguments.length === 1) return gettext(locale, key);
+    if (arguments.length === 2) return gettext(locale, key, value);
+
     const args = new Array(arguments.length + 1);
     args[0] = locale;
-    for (let i = 0; i < arguments.length; i++) {
-      args[i + 1] = arguments[i];
-    }
+    // eslint-disable-next-line prettier/prettier
+    for(let i = 0; i < arguments.length; i++) args[i + 1] = arguments[i];
+
     return gettext.apply(this, args);
   };
 
   // 1. query: /?locale=en-US
   // 2. cookie: locale=zh-TW
   // 3. header: Accept-Language: zh-CN,zh;q=0.5
-  app.context.__getLocale = function () {
-    if (this.__locale) {
-      return this.__locale;
-    }
+  app.context.__getLocale = function() {
+    if (this.__locale) return this.__locale;
 
     const cookieLocale = this.cookies.get(cookieField, { signed: false });
 
@@ -181,12 +171,13 @@ module.exports = function (app, options) {
       let languages = this.acceptsLanguages();
       if (languages) {
         if (Array.isArray(languages)) {
-          if (languages[0] === '*') {
-            languages = languages.slice(1);
-          }
+          if (languages[0] === '*') languages = languages.slice(1);
+
           if (languages.length > 0) {
-            for (let i = 0; i < languages.length; i++) {
-              const lang = formatLocale(languages[i]);
+            // eslint-disable-next-line max-depth
+            for (const language of languages) {
+              const lang = formatLocale(language);
+              // eslint-disable-next-line max-depth
               if (resources[lang] || localeAlias[lang]) {
                 locale = lang;
                 localeOrigin = 'header';
@@ -211,21 +202,29 @@ module.exports = function (app, options) {
     if (locale in localeAlias) {
       const originalLocale = locale;
       locale = localeAlias[locale];
-      debugSilly('Used alias, received %s but using %s', originalLocale, locale);
+      debugSilly(
+        'Used alias, received %s but using %s',
+        originalLocale,
+        locale
+      );
     }
 
     locale = formatLocale(locale);
 
     // validate locale
     if (!resources[locale]) {
-      debugSilly('Locale %s is not supported. Using default (%s)', locale, defaultLocale);
+      debugSilly(
+        'Locale %s is not supported. Using default (%s)',
+        locale,
+        defaultLocale
+      );
       locale = defaultLocale;
     }
 
     // if header not send, set the locale cookie
-    if (writeCookie && cookieLocale !== locale && !this.headerSent) {
+    if (writeCookie && cookieLocale !== locale && !this.headerSent)
       updateCookie(this, locale);
-    }
+
     debug('Locale: %s from %s', locale, localeOrigin);
     debugSilly('Locale: %s from %s', locale, localeOrigin);
     this.__locale = locale;
@@ -233,13 +232,13 @@ module.exports = function (app, options) {
     return locale;
   };
 
-  app.context.__getLocaleOrigin = function () {
+  app.context.__getLocaleOrigin = function() {
     if (this.__localeOrigin) return this.__localeOrigin;
     this.__getLocale();
     return this.__localeOrigin;
   };
 
-  app.context.__setLocale = function (locale) {
+  app.context.__setLocale = function(locale) {
     this.__locale = locale;
     this.__localeOrigin = 'set';
     updateCookie(this, locale);
@@ -252,8 +251,9 @@ module.exports = function (app, options) {
       maxAge: cookieMaxAge,
       signed: false,
       domain: cookieDomain,
-      overwrite: true,
+      overwrite: true
     };
+
     ctx.cookies.set(cookieField, locale, cookieOptions);
     debugSilly('Saved cookie with locale %s', locale);
   }
@@ -264,24 +264,25 @@ function isObject(obj) {
 }
 
 const ARRAY_INDEX_RE = /\{(\d+)\}/g;
+
 function formatWithArray(text, values) {
-  return text.replace(ARRAY_INDEX_RE, function (orignal, matched) {
+  return text.replace(ARRAY_INDEX_RE, function(orignal, matched) {
+    // eslint-disable-next-line radix
     const index = parseInt(matched);
-    if (index < values.length) {
-      return values[index];
-    }
+    if (index < values.length) return values[index];
+
     // not match index, return orignal text
     return orignal;
   });
 }
 
 const Object_INDEX_RE = /\{(.+?)\}/g;
+
 function formatWithObject(text, values) {
-  return text.replace(Object_INDEX_RE, function (orignal, matched) {
+  return text.replace(Object_INDEX_RE, function(orignal, matched) {
     const value = values[matched];
-    if (value) {
-      return value;
-    }
+    if (value) return value;
+
     // not match index, return orignal text
     return orignal;
   });
@@ -293,11 +294,10 @@ function formatLocale(locale) {
 }
 
 function flattening(data) {
-
   const result = {};
 
   function deepFlat(data, keys) {
-    Object.keys(data).forEach(function (key) {
+    Object.keys(data).forEach(function(key) {
       const value = data[key];
       const k = keys ? keys + '.' + key : key;
       if (isObject(value)) {
