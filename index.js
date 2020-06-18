@@ -164,7 +164,7 @@ module.exports = function (app, options) {
       p = PluralsForLocale[locale];
     } else {
     // split locales with a region code
-      let lc = locale.toLowerCase().split(/[_-\s]+/)
+      const lc = locale.toLowerCase().split(/[_-\s]+/)
         .filter(function(el){ return true && el; });
       // take the first part of locale, fallback to full locale
       p = MakePlural[lc[0] || locale];
@@ -175,7 +175,7 @@ module.exports = function (app, options) {
     //**************************************************************//
 
     if (text === undefined && isObject(key)) {
-      text = key[p(count)] || key['other']; 
+      text = key[p(count)] || key['other'];
     }
 
     if (text === undefined) {
