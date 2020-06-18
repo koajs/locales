@@ -22,7 +22,7 @@ const DEFAULT_OPTIONS = {
   dir: undefined,
   dirs: [path.join(process.cwd(), 'locales')],
   functionName: '__',
-  functionnName: '__n'
+  functionnName: '__n',
 };
 
 module.exports = function (app, options) {
@@ -136,49 +136,48 @@ module.exports = function (app, options) {
   }
 
   app[functionName] = gettext;
-  
-  
+
   function gettextn(locale, key, count, value) {
     if (arguments.length === 0 || arguments.length === 1) {
       // __n()
       // __n('en')
       return '';
     }
-    
+
     if (arguments.length === 2) {
       // __n('en', key)
       return gettext(locale, key);
     }
-    
+
     const resource = resources[locale] || {};
-    
+
     // enforce number
     count = Number(count);
-    
+
     //**************************************************************//
     // Directly adapted from __n function of i18n module :
     // https://github.com/mashpie/i18n-node/blob/master/i18n.js
-    var p;
+    let p;
     // create a new Plural for locale
     // and try to cache instance
     if (PluralsForLocale[locale]) {
       p = PluralsForLocale[locale];
     } else {
     // split locales with a region code
-      var lc = locale.toLowerCase().split(/[_-\s]+/)
+      let lc = locale.toLowerCase().split(/[_-\s]+/)
         .filter(function(el){ return true && el; });
       // take the first part of locale, fallback to full locale
       p = MakePlural[lc[0] || locale];
       PluralsForLocale[locale] = p;
     }
     // fallback to 'other' on case of missing translations
-    let text = resource[key+"."+p(count)] || resource[key+".other"];
+    let text = resource[key + '.' + p(count)] || resource[key + '.other'];
     //**************************************************************//
-    
+
     if (text === undefined && isObject(key)) {
-      text = key[p(count)] || key["other"]; 
+      text = key[p(count)] || key['other']; 
     }
-    
+
     if (text === undefined) {
       text = key;
     }
@@ -220,9 +219,9 @@ module.exports = function (app, options) {
       args[i - 2] = arguments[i];
     }
     return util.format.apply(util, args);
-    
+
   }
-  
+
   app[functionnName] = gettextn;
 
   app.context[functionName] = function (key, value) {
@@ -245,7 +244,7 @@ module.exports = function (app, options) {
     }
     return gettext.apply(this, args);
   };
-  
+
   app.context[functionnName] = function (key, count, value) {
     if (arguments.length === 0) {
       // __n()
@@ -257,7 +256,7 @@ module.exports = function (app, options) {
       // __n(key)
       return gettext(locale, key);
     }
-    
+
     if (arguments.length === 2) {
       return gettextn(locale, key, count);
     }
