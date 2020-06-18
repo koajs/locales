@@ -99,6 +99,86 @@ __('{a} {a} {b} {b} {b}', {a: 'foo', b: 'bar'})
 'foo foo bar bar bar'
 ```
 
+### `context.__n(key, count[, value1[, value2, ...]])`
+
+Get current request locale text with plural.
+
+Works with package [make-plural](https://github.com/eemeli/make-plural/tree/master/packages/plurals) package. Support approximately 200 languages.
+
+```js
+async function home(ctx) {
+  ctx.body = {
+    message: ctx.__n({one: 'I have one apple.', other: 'I have {0} apples.', 2, 2),
+  };
+}
+```
+
+**Note:**  
+The `count` parameter is not part of the displayed values. To have the number 
+`count` displayed, one must add this parameter to the list of values.
+
+
+Examples:
+
+```js
+// With english locale
+__n({one: 'I have one cat.', other: 'I have not one cat.'}, 0)
+=>
+'I have not one cat.'
+
+// With french locale
+// Note that the parameter 0 is put two times:
+// The first one is used as the count parameter and the second is displayed as
+// first value ({0}).
+__n({one: "J'ai {0} chat.", other: "J'ai {0} chats."}, 0, 0)
+=>
+"J'ai 0 chat."
+
+// If the targeted plural is not found (here 'one'), 'other' is selected.
+__n({other: '{a} {a} {b} {b} {b}'}, 1, {a: 'foo', b: 'bar'})
+=>
+'foo foo bar bar bar'
+```
+
+Russian json file (from [i18n](https://github.com/mashpie/i18n-node#i18n__n)
+example):
+```json
+{
+  "cat_key": {
+    "one": "%d кошка",
+    "few": "%d кошки",
+    "many": "%d кошек",
+    "other": "%d кошка",
+  }
+}
+```
+Use:
+```js
+__n('cat_key', 0, 0);
+=>
+'0 кошек'
+
+__n('cat_key', 1, 1); 
+=>
+'1 кошка'
+
+__n('cat_key', 2, 2);
+=>
+'2 кошки'
+
+__n('cat_key', 5, 5); 
+=>
+'5 кошек'
+
+__n('cat_key', 6, 6);
+=>
+'6 кошек'
+
+__n('cat_key', 21, 21);
+=>
+'21 кошка'
+```
+
 ### `context.__getLocale()`
 
 Get locale from query / cookie and header.
@@ -145,6 +225,44 @@ You can set the property *locals* on the KoaPug instance, where the default loca
 ```js
 app.use(async (ctx, next) => {
   koaPug.locals.__ = ctx.__.bind(ctx);
+  await next();
+});
+```
+
+### `app.__n(locale, key, count[, value1[, value2, ...]])`
+
+Get the given locale text with plural management on application level.
+
+```js
+console.log(app.__n('zh', {other: 'Hello'}, 0));
+// stdout '你好' for Chinese
+```
+
+## Usage on template
+
+```js
+this.state.__n = this.__n.bind(this);
+```
+
+[Nunjucks] example:
+
+```html
+{{ __n({other: 'Hello, %s'}, 2, user.name) }}
+```
+
+[Pug] example:
+
+```pug
+p= __n({other: 'Hello, %s'}, 2, user.name)
+```
+
+[Koa-pug] integration:
+
+You can set the property *locals* on the KoaPug instance, where the default locals are stored.
+
+```js
+app.use(async (ctx, next) => {
+  koaPug.locals.__n = ctx.__n.bind(ctx);
   await next();
 });
 ```
