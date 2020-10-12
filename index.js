@@ -78,18 +78,27 @@ module.exports = function (app, options) {
     console.warn('[koa-locales] will override exists "%s" function on app', functionName);
   }
 
-  function gettext(locale, key, value) {
+  function gettext(_locale, key, value) {
     if (arguments.length === 0 || arguments.length === 1) {
       // __()
       // --('en')
       return '';
     }
 
+    const locale = formatLocale(_locale);
+
     const resource = resources[locale] || {};
 
     let text = resource[key];
     if (text === undefined) {
-      text = key;
+      const languageCode = locale.split('-')[0];
+      if (resources[languageCode] !== undefined && resources[languageCode][key] !== undefined) {
+        text = resources[languageCode][key];
+      } else if (resources[defaultLocale][key] !== undefined) {
+        text = resources[defaultLocale][key];
+      } else {
+        text = key;
+      }
     }
 
     debugSilly('%s: %j => %j', locale, key, text);
