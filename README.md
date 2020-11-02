@@ -1,4 +1,4 @@
-koa-locales
+[koa-locales](https://github.com/koajs/locales)
 =======
 
 [![NPM version][npm-image]][npm-url]
@@ -14,19 +14,27 @@ koa locales, i18n solution for koa:
 3. One api: `__(key[, value, ...])`.
 4. Auto detect request locale from `query`, `cookie` and `header: Accept-Language`.
 
+> This module is compatible with all Koa versions.
+
 ## Installation
 
 ```bash
-$ npm install koa-locales --save
+# npm ..
+$ npm add koa-locales
+# yarn .. 
+$ yarn add koa-locales
 ```
 
 ## Quick start
 
 ```js
-const koa = require('koa');
+const Koa = require('koa');
 const locales = require('koa-locales');
 
-const app = koa();
+// Koa@1.x.x
+// const app = Koa(); 
+// Koa@2.x.x
+const app = new Koa();
 const options = {
   dirs: [__dirname + '/locales', __dirname + '/foo/locales'],
 };
@@ -39,16 +47,16 @@ locales(app, options);
 
 Patch locales functions to koa app.
 
-- {Application} app: koa app instance.
-- {Object} options: optional params.
-  - {String} functionName: locale function name patch on koa context. Optional, default is `__`.
-  - {String} dirs: locales resources store directories. Optional, default is `['$PWD/locales']`.
-  - {String} defaultLocale: default locale. Optional, default is `en-US`.
-  - {String} queryField: locale field name on query. Optional, default is `locale`.
-  - {String} cookieField: locale field name on cookie. Optional, default is `locale`.
-  - {String} cookieDomain: domain on cookie. Optional, default is `''`.
-  - {Object} localeAlias: locale value map. Optional, default is `{}`.
-  - {String|Number} cookieMaxAge: set locale cookie value max age. Optional, default is `1y`, expired after one year.
+- {Application} **app**: koa app instance.
+- {Object} **options**: optional params.
+  - {String} **functionName**: locale function name patch on koa context. Optional, default is `__`.
+  - {String} **dirs**: locales resources store directories. Optional, default is `['$PWD/locales']`.
+  - {String} **defaultLocale**: default locale. Optional, default is `en-US`.
+  - {String} **queryField**: locale field name on query. Optional, default is `locale`.
+  - {String} **cookieField**: locale field name on cookie. Optional, default is `locale`.
+  - {String} **cookieDomain**: domain on cookie. Optional, default is `''`.
+  - {Object} **localeAlias**: locale value map. Optional, default is `{}`.
+  - {String|Number} **cookieMaxAge**: set locale cookie value max age. Optional, default is `1y`, expired after one year.
 
 ```js
 locales({
