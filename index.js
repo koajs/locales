@@ -10,6 +10,7 @@ const path = require('path');
 const ms = require('humanize-ms');
 const assign = require('object-assign');
 const yaml = require('js-yaml');
+const MakePlural = require('make-plural');
 
 const DEFAULT_OPTIONS = {
   defaultLocale: 'en-US',
@@ -21,6 +22,7 @@ const DEFAULT_OPTIONS = {
   dir: undefined,
   dirs: [path.join(process.cwd(), 'locales')],
   functionName: '__',
+  functionnName: '__n',
 };
 
 module.exports = function (app, options) {
@@ -35,7 +37,9 @@ module.exports = function (app, options) {
   const localeDir = options.dir;
   const localeDirs = options.dirs;
   const functionName = options.functionName;
+  const functionnName = options.functionnName;
   const resources = {};
+  const PluralsForLocale = {};
 
   /**
    * @Deprecated Use options.dirs instead.
@@ -81,7 +85,7 @@ module.exports = function (app, options) {
   function gettext(locale, key, value) {
     if (arguments.length === 0 || arguments.length === 1) {
       // __()
-      // --('en')
+      // __('en')
       return '';
     }
 
@@ -133,6 +137,93 @@ module.exports = function (app, options) {
 
   app[functionName] = gettext;
 
+  function gettextn(locale, key, count, value) {
+    if (arguments.length === 0 || arguments.length === 1) {
+      // __n()
+      // __n('en')
+      return '';
+    }
+
+    if (arguments.length === 2) {
+      // __n('en', key)
+      return gettext(locale, key);
+    }
+
+    const resource = resources[locale] || {};
+
+    // enforce number
+    count = Number(count);
+
+    //**************************************************************//
+    // Directly adapted from __n function of i18n module :
+    // https://github.com/mashpie/i18n-node/blob/master/i18n.js
+    let p;
+    // create a new Plural for locale
+    // and try to cache instance
+    if (PluralsForLocale[locale]) {
+      p = PluralsForLocale[locale];
+    } else {
+    // split locales with a region code
+      const lc = locale.toLowerCase().split(/[_-\s]+/)
+        .filter(function(el){ return true && el; });
+      // take the first part of locale, fallback to full locale
+      p = MakePlural[lc[0] || locale];
+      PluralsForLocale[locale] = p;
+    }
+    // fallback to 'other' on case of missing translations
+    let text = resource[key + '.' + p(count)] || resource[key + '.other'];
+    //**************************************************************//
+
+    if (text === undefined && isObject(key)) {
+      text = key[p(count)] || key['other'];
+    }
+
+    if (text === undefined) {
+      text = key;
+    }
+
+    debugSilly('%s: %j => %j', locale, key, text);
+    if (!text) {
+      return '';
+    }
+
+    if (arguments.length === 3) {
+      // __(locale, key, count)
+      return text;
+    }
+    if (arguments.length === 4) {
+      if (isObject(value)) {
+        // __(locale, key, count, object)
+        // __('zh', {"one": '{a} {b} {b} {a}', "other": '{b} {a} {a} {b}'}, 1, {a: 'foo', b: 'bar'})
+        // =>
+        // foo bar bar foo
+        return formatWithObject(text, value);
+      }
+
+      if (Array.isArray(value)) {
+        // __(locale, key, array)
+        // __('zh', {"one": '{0} {1} {1} {0}', "other": '{1} {0} {0} {1}'}, 2, ['foo', 'bar'])
+        // =>
+        // bar foo foo bar
+        return formatWithArray(text, value);
+      }
+
+      // __(locale, key, count, value)
+      return util.format(text, value);
+    }
+
+    // __(locale, key, count, value1, ...)
+    const args = new Array(arguments.length - 2);
+    args[0] = text;
+    for(let i = 3; i < arguments.length; i++) {
+      args[i - 2] = arguments[i];
+    }
+    return util.format.apply(util, args);
+
+  }
+
+  app[functionnName] = gettextn;
+
   app.context[functionName] = function (key, value) {
     if (arguments.length === 0) {
       // __()
@@ -152,6 +243,32 @@ module.exports = function (app, options) {
       args[i + 1] = arguments[i];
     }
     return gettext.apply(this, args);
+  };
+
+  app.context[functionnName] = function (key, count, value) {
+    if (arguments.length === 0) {
+      // __n()
+      return '';
+    }
+
+    const locale = this.__getLocale();
+    if (arguments.length === 1) {
+      // __n(key)
+      return gettext(locale, key);
+    }
+
+    if (arguments.length === 2) {
+      return gettextn(locale, key, count);
+    }
+    if (arguments.length === 3) {
+      return gettextn(locale, key, count, value);
+    }
+    const args = new Array(arguments.length + 1);
+    args[0] = locale;
+    for(let i = 0; i < arguments.length; i++) {
+      args[i + 1] = arguments[i];
+    }
+    return gettextn.apply(this, args);
   };
 
   // 1. query: /?locale=en-US
