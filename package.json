@@ -39,7 +39,7 @@
   "homepage": "https://github.com/koajs/locales",
   "repository": {
     "type": "git",
-    "url": "git://github.com/koajs/locales.git",
+    "url": "git+https://github.com/koajs/locales.git",
     "web": "https://github.com/koajs/locales"
   },
   "bugs": {
